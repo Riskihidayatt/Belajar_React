@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Belajar React Interaktif Lengkap</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      .nav-link.active {
+        background-color: #059669; /* emerald-600 */
+        color: white;
+        transform: translateX(5px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      }
+      .nav-link:hover:not(.active) {
+        background-color: #374151; /* gray-700 */
+        color: #f0f9ff; /* sky-50 */
+      }
+      pre {
+        background-color: #1f2937; /* gray-800 */
+        color: #f9fafb; /* gray-50 */
+        border: 1px solid #374151; /* gray-700 */
+        border-radius: 0.375rem; /* rounded-md */
+        padding: 1rem;
+        overflow-x: auto;
+        font-size: 0.875rem; /* text-sm */
+        line-height: 1.25rem;
+      }
+      code.language-jsx .token.tag,
+      code.language-jsx .token.attr-name,
+      code.language-jsx .token.namespace {
+        color: #60a5fa; /* sky-400 */
+      }
+      code.language-jsx .token.punctuation {
+        color: #9ca3af; /* gray-400 */
+      }
+      code.language-jsx .token.operator {
+        color: #f472b6; /* pink-400 */
+      }
+      code.language-jsx .token.string,
+      code.language-jsx .token.attr-value {
+        color: #a7f3d0; /* emerald-200 */
+      }
+      code.language-jsx .token.keyword {
+        color: #f08080; /* lightcoral */
+      }
+      code.language-jsx .token.comment {
+        color: #6b7280; /* gray-500 */
+      }
+      code.language-jsx .token.function,
+      code.language-jsx .token.class-name {
+        color: #fcd34d; /* amber-300 */
+      }
+      code.language-javascript .token.keyword {
+        color: #c084fc; /* purple-400 */
+      }
+      code.language-javascript .token.string {
+        color: #a7f3d0; /* emerald-200 */
+      }
+      code.language-javascript .token.function {
+        color: #fcd34d; /* amber-300 */
+      }
+      code.language-javascript .token.comment {
+        color: #6b7280; /* gray-500 */
+      }
+      code.language-css .token.selector {
+        color: #f08080; /* lightcoral */
+      }
+      code.language-css .token.property {
+        color: #60a5fa; /* sky-400 */
+      }
+      code.language-css .token.string {
+        color: #a7f3d0; /* emerald-200 */
+      }
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #1f2937; /* gray-800 */
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #4b5563; /* gray-600 */
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #6b7280; /* gray-500 */
+      }
+      section:target::before {
+        content: "";
+        display: block;
+        height: 70px; /* Tinggi navbar */
+        margin-top: -70px; /* Negatif tinggi navbar */
+        visibility: hidden;
+      }
+    </style>
+  </head>
+  <body class="bg-slate-900 text-slate-200">
+    <div class="flex">
+      <nav
+        class="fixed top-0 left-0 w-72 h-screen bg-slate-800 p-5 space-y-3 overflow-y-auto shadow-lg z-20"
+      >
+        <h1
+          class="text-3xl font-bold text-sky-400 mb-8 border-b-2 border-sky-500 pb-2"
+        >
+          🚀 Belajar React
+        </h1>
+        <a
+          href="#pengenalan"
+          class="nav-link block py-3 px-4 rounded-lg transition-all duration-300 ease-in-out hover:text-sky-300"
+          >🌐 Pengenalan & Vite</a
+        >
+        <a
+          href="#jsx"
+          class="nav-link block py-3 px-4 rounded-lg transition-all duration-300 ease-in-out hover:text-sky-300"
+          >✨ JSX</a
+        >
+        <a
+          href="#styling"
+          class="nav-link block py-3 px-4 rounded-lg transition-all duration-300 ease-in-out hover:text-sky-300"
+          >🎨 Styling</a
+        >
+        <a
+          href="#interaksi"
+          class="nav-link block py-3 px-4 rounded-lg transition-all duration-300 ease-in-out hover:text-sky-300"
+          >🔗 Interaksi Komponen</a
+        >
+        <a
+          href="#form-list"
+          class="nav-link block py-3 px-4 rounded-lg transition-all duration-300 ease-in-out hover:text-sky-300"
+          >📝 Form & List</a
+        >
+        <a
+          href="#studi-kasus"
+          class="nav-link block py-3 px-4 rounded-lg transition-all duration-300 ease-in-out hover:text-sky-300"
+          >🔨 Studi Kasus: To-Do</a
+        >
+        <a
+          href="#kesimpulan"
+          class="nav-link block py-3 px-4 rounded-lg transition-all duration-300 ease-in-out hover:text-sky-300"
+          >🏁 Kesimpulan</a
+        >
+      </nav>
+
+      <main class="ml-72 p-10 flex-1 overflow-y-auto" style="min-height: 100vh">
+        <header class="mb-12">
+          <h2 class="text-4xl font-extrabold text-sky-300">
+            Selamat Datang di Panduan Interaktif React!
+          </h2>
+          <p class="text-slate-400 mt-2 text-lg">
+            Jelajahi konsep-konsep React dari dasar hingga pembuatan aplikasi
+            sederhana.
+          </p>
+        </header>
+
+        <section id="pengenalan" class="mb-16 scroll-mt-20">
+          <h2
+            class="text-3xl font-bold text-sky-400 mb-6 border-l-4 border-emerald-500 pl-4"
+          >
+            🌐 Pengenalan React & Vite
+          </h2>
+          <p class="mb-6 text-lg leading-relaxed">
+            Bagian ini akan memandu Anda memahami apa itu React, mengapa ia
+            begitu populer, dan bagaimana cara cepat memulai proyek menggunakan
+            Vite.
+          </p>
+
+          <article class="mb-8 p-6 bg-slate-800 rounded-xl shadow-md">
+            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
+              Apa itu React? ⚛️
+            </h3>
+            <p class="mb-3">
+              React adalah sebuah pustaka JavaScript yang <em>deklaratif</em>,
+              <em>efisien</em>, dan <em>fleksibel</em> untuk membangun antarmuka
+              pengguna (UI) yang kompleks dan interaktif. Dikembangkan oleh
+              Facebook, React memungkinkan developer untuk membuat komponen UI
+              yang dapat digunakan kembali (<em>reusable components</em>).
+            </p>
+            <p>
+              Pendekatan <em>deklaratif</em> React berarti Anda cukup
+              mendeskripsikan bagaimana UI seharusnya terlihat berdasarkan data
+              (<em>state</em>) saat ini, dan React akan secara otomatis
+              memperbarui DOM ketika data tersebut berubah.
+            </p>
+          </article>
+
+          <article class="mb-8 p-6 bg-slate-800 rounded-xl shadow-md">
+            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
+              Mengapa React Begitu Populer?
+            </h3>
+            <ul class="list-disc list-inside space-y-3 pl-2">
+              <li>
+                <strong>Virtual DOM:</strong> React menggunakan Virtual DOM
+                untuk optimasi performa. Perubahan pada UI pertama kali
+                diterapkan pada representasi DOM di memori (Virtual DOM),
+                kemudian React menghitung cara paling efisien untuk memperbarui
+                DOM browser yang sebenarnya. Ini meminimalkan manipulasi DOM
+                langsung yang mahal.
+              </li>
+              <li>
+                <strong>Berbasis Komponen:</strong> Memecah UI menjadi
+                komponen-komponen kecil yang independen dan dapat digunakan
+                kembali membuat kode lebih modular, mudah dikelola, dan
+                diskalakan.
+              </li>
+              <li>
+                <strong>Ekosistem Besar:</strong> Komunitas yang besar dan aktif
+                berarti banyak sumber daya, pustaka pihak ketiga (seperti React
+                Router untuk navigasi, Redux/Zustand untuk state management),
+                dan dukungan yang tersedia.
+              </li>
+              <li>
+                <strong>Unidirectional Data Flow:</strong> Aliran data satu arah
+                (biasanya dari komponen induk ke anak melalui props) membuat
+                state aplikasi lebih mudah diprediksi dan di-debug.
+              </li>
+            </ul>
+          </article>
+
+          <article class="p-6 bg-slate-800 rounded-xl shadow-md">
+            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
+              Memulai dengan Vite ⚡
+            </h3>
+            <p class="mb-3">
+              Vite adalah alat bantu pengembangan web modern yang memberikan
+              pengalaman pengembangan frontend yang sangat cepat. Ia menyediakan
+              server pengembangan dengan Hot Module Replacement (HMR) instan dan
+              build yang dioptimalkan.
+            </p>
+            <p class="mb-3">Untuk membuat proyek React baru dengan Vite:</p>
+            <pre><code class="language-bash">npm create vite@latest nama-proyek-react -- --template react</code></pre>
+            <p class="mt-3 mb-3">
+              Setelah proyek dibuat, navigasikan ke direktori proyek dan instal
+              dependensi:
+            </p>
+            <pre><code class="language-bash">cd nama-proyek-react
+npm install</code></pre>
+            <p class="mt-3">Kemudian, jalankan server pengembangan:</p>
+            <pre><code class="language-bash">npm run dev</code></pre>
+            <p class="mt-3">
+              Vite akan memulai server dan aplikasi React Anda akan dapat
+              diakses di browser, biasanya di
+              <code class="text-emerald-400">http://localhost:5173</code>.
+            </p>
+          </article>
+        </section>
+
+        <hr class="my-12 border-slate-700" />
+
+        <section id="jsx" class="mb-16 scroll-mt-20">
+          <h2
+            class="text-3xl font-bold text-sky-400 mb-6 border-l-4 border-emerald-500 pl-4"
+          >
+            ✨ JSX: JavaScript XML
+          </h2>
+          <p class="mb-6 text-lg leading-relaxed">
+            JSX adalah ekstensi sintaks untuk JavaScript yang memungkinkan Anda
+            menulis markup mirip HTML langsung di dalam file JavaScript Anda.
+            Ini membuat pembuatan komponen React lebih intuitif.
+          </p>
+
+          <article class="mb-8 p-6 bg-slate-800 rounded-xl shadow-md">
+            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
+              Memahami JSX
+            </h3>
+            <p class="mb-3">
+              Meskipun terlihat seperti HTML, JSX sebenarnya adalah "syntactic
+              sugar" untuk fungsi `React.createElement(component, props,
+              ...children)`. Browser tidak memahami JSX secara langsung; ia
+              perlu dikompilasi menjadi JavaScript biasa oleh transpiler seperti
+              Babel (yang sudah terintegrasi dalam Vite).
+            </p>
+            <p class="font-semibold">Contoh JSX:</p>
+            <pre><code class="language-jsx">const nama = "Pengguna React";
+const elemen = &lt;h1 className="salam"&gt;Halo, {nama}!&lt;/h1&gt;;
+
+// JSX di atas akan dikompilasi menjadi:
+// React.createElement("h1", {className: "salam"}, "Halo, ", nama, "!");</code></pre>
+          </article>
+
+          <article class="p-6 bg-slate-800 rounded-xl shadow-md">
+            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
+              Aturan Penting dalam JSX
+            </h3>
+            <ul class="list-disc list-inside space-y-3 pl-2">
+              <li>
+                <strong>Satu Elemen Induk (Root):</strong> Komponen React harus
+                mengembalikan satu elemen induk. Jika Anda memiliki beberapa
+                elemen, bungkus dalam satu `&lt;div&gt;` atau gunakan
+                `&lt;React.Fragment&gt;` (atau sintaks singkatnya
+                `&lt;&gt;...&lt;/&gt;`).
+              </li>
+              <li>
+                <strong>Atribut HTML:</strong> Banyak atribut HTML standar
+                berfungsi di JSX, tetapi beberapa ditulis dalam camelCase
+                (misalnya, `onClick`, `onSubmit`). Atribut `class` ditulis
+                sebagai `className` dan `for` sebagai `htmlFor`.
+              </li>
+              <li>
+                <strong>Ekspresi JavaScript:</strong> Anda dapat menyematkan
+                ekspresi JavaScript apa pun di dalam JSX dengan menggunakan
+                kurung kurawal `{ }`. Misalnya, `{user.name}`, `{2 + 2}`,
+                `{isAdmin ? <AdminPanel /> : <UserPanel />}`.
+              </li>
+              <li>
+                <strong>Self-Closing Tags:</strong> Elemen yang tidak memiliki
+                konten anak (seperti `&lt;img /&gt;`, `&lt;br /&gt;`, `&lt;input
+                /&gt;`) harus ditutup dengan ` /&gt;`.
+              </li>
+              <li>
+                <strong>Komentar:</strong> Komentar di JSX ditulis sebagai `{/*
+                Ini komentar */}`.
+              </li>
+            </ul>
+          </article>
+        </section>
+
+        <hr class="my-12 border-slate-700" />
+
+        <section id="styling" class="mb-16 scroll-mt-20">
+          <h2
+            class="text-3xl font-bold text-sky-400 mb-6 border-l-4 border-emerald-500 pl-4"
+          >
+            🎨 Styling di React
+          </h2>
+          <p class="mb-6 text-lg leading-relaxed">
+            Ada berbagai cara untuk menata gaya komponen React Anda. Bagian ini
+            akan membahas beberapa metode populer.
+          </p>
+
+          <article class="mb-8 p-6 bg-slate-800 rounded-xl shadow-md">
+            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
+              1. CSS Biasa (Plain CSS)
+            </h3>
+            <p class="mb-3">
+              Anda dapat membuat file `.css` dan mengimpornya ke komponen Anda.
+              Nama kelas diterapkan menggunakan atribut `className`.
+            </p>
+            <pre><code class="language-jsx">// MyComponent.jsx
+import './MyComponent.css';
+
+function MyComponent() {
+  return &lt;div className="my-component-style"&gt;Konten Komponen&lt;/div&gt;;
+}</code></pre>
+            <pre><code class="language-css">/* MyComponent.css */
+.my-component-style {
+  background-color: #2D3748; /* gray-800 versi lain */
+  color: #E2E8F0; /* slate-200 */
+  padding: 1rem;
+  border-radius: 0.5rem;
+}</code></pre>
+            <p class="mt-3">
+              <strong>Kelemahan:</strong> Scope CSS bersifat global, yang dapat
+              menyebabkan konflik nama kelas pada aplikasi besar.
+            </p>
+          </article>
+
+          <article class="mb-8 p-6 bg-slate-800 rounded-xl shadow-md">
+            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
+              2. CSS Modules
+            </h3>
+            <p class="mb-3">
+              CSS Modules adalah file CSS di mana semua nama kelas dan animasi
+              memiliki scope lokal secara default (nama file biasanya
+              `*.module.css`).
+            </p>
+            <pre><code class="language-jsx">// MyComponent.jsx
+import styles from './MyComponent.module.css';
+
+function MyComponent() {
+  return &lt;div className={styles.myComponentStyle}&gt;Konten dengan CSS Module&lt;/div&gt;;
+}</code></pre>
+            <pre><code class="language-css">/* MyComponent.module.css */
+.myComponentStyle { /* Akan menjadi unik seperti MyComponent_myComponentStyle__XYZ123 */
+  background-color: #4A5568; /* gray-700 versi lain */
+  color: #F7FAFC; /* gray-100 */
+  padding: 1rem;
+  border: 1px solid #718096; /* gray-500 */
+}</code></pre>
+            <p class="mt-3">
+              <strong>Kelebihan:</strong> Mencegah konflik nama kelas global.
+            </p>
+          </article>
+
+          <article class="mb-8 p-6 bg-slate-800 rounded-xl shadow-md">
+            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
+              3. Inline Styles
+            </h3>
+            <p class="mb-3">
+              Style diterapkan langsung ke elemen JSX menggunakan atribut
+              `style`, yang menerima objek JavaScript dengan properti camelCase.
+            </p>
+            <pre><code class="language-jsx">function MyComponent({ isActive }) {
+  const inlineStyle = {
+    backgroundColor: isActive ? '#38A169' : '#4A5568', // emerald-600 atau gray-700
+    color: 'white',
+    padding: '10px 20px',
+    borderRadius: '5px',
+    fontSize: '1rem' 
+  };
+  return &lt;button style={inlineStyle}&gt;Tombol Dinamis&lt;/button&gt;;
+}</code></pre>
+            <p class="mt-3">
+              <strong>Kelebihan:</strong> Berguna untuk style dinamis.
+              <strong>Kekurangan:</strong> Kurang ideal untuk style kompleks,
+              tidak mendukung pseudo-class secara langsung.
+            </p>
+          </article>
+
+          <article class="p-6 bg-slate-800 rounded-xl shadow-md">
+            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
+              4. CSS-in-JS (Contoh: Styled Components)
+            </h3>
+            <p class="mb-3">
+              Pustaka seperti Styled Components memungkinkan Anda menulis CSS
+              aktual di dalam file JavaScript menggunakan template literals.
+            </p>
+            <p class="mb-3">
+              Pertama, instal:
+              <code class="text-emerald-400"
+                >npm install styled-components</code
+              >
+            </p>
+            <pre><code class="language-jsx">// Button.jsx
+import styled from 'styled-components';
+
+const StyledButton = styled.button`
+  background-color: ${props => props.primary ? '#06B6D4' : '#475569'}; /* sky-500 atau slate-600 */
+  color: white;
+  font-size: 1em;
+  padding: 0.5em 1.5em;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: ${props => props.primary ? '#0891B2' : '#334155'}; /* sky-600 atau slate-700 */
+  }
+`;
+
+// Penggunaan:
+// &lt;StyledButton primary&gt;Tombol Utama&lt;/StyledButton&gt;
+// &lt;StyledButton&gt;Tombol Sekunder&lt;/StyledButton&gt;
+                    </code></pre>
+            <p class="mt-3">
+              <strong>Kelebihan:</strong> Enkapsulasi style yang kuat, style
+              dinamis berdasarkan props. <strong>Kekurangan:</strong> Menambah
+              dependensi, kurva belajar tambahan.
+            </p>
+          </article>
+        </section>
+
+        <hr class="my-12 border-slate-700" />
+
+        <section id="interaksi" class="mb-16 scroll-mt-20">
+          <h2
+            class="text-3xl font-bold text-sky-400 mb-6 border-l-4 border-emerald-500 pl-4"
+          >
+            🔗 Interaksi Komponen: State & Props
+          </h2>
+          <p class="mb-6 text-lg leading-relaxed">
+            State dan Props adalah jantung dari aplikasi React yang dinamis,
+            memungkinkan komponen untuk mengelola data dan berkomunikasi.
+          </p>
+
+          <article class="mb-8 p-6 bg-slate-800 rounded-xl shadow-md">
+            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
+              Props (Properties) 🎁
+            </h3>
+            <p class="mb-3">
+              Props adalah cara komponen menerima data dari komponen induknya.
+              Props bersifat <em>read-only</em> di dalam komponen yang
+              menerimanya; komponen anak tidak boleh memodifikasi props secara
+              langsung.
+            </p>
+            <pre><code class="language-jsx">// Komponen Induk
+function App() {
+  return &lt;SalamPengguna nama="Budi" usia={30} /&gt;;
+}
+
+// Komponen Anak
+function SalamPengguna(props) {
+  // props adalah objek: { nama: "Budi", usia: 30 }
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Halo, {props.nama}! Usia Anda {props.usia} tahun.&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Bisa juga dengan destructuring props:
+// function SalamPengguna({ nama, usia }) { ... }</code></pre>
+          </article>
+
+          <article class="mb-8 p-6 bg-slate-800 rounded-xl shadow-md">
+            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
+              State ❤️
+            </h3>
+            <p class="mb-3">
+              State adalah data internal yang dimiliki dan dikelola oleh sebuah
+              komponen. Ketika state berubah, React akan me-render ulang
+              komponen tersebut untuk mencerminkan perubahan UI.
+            </p>
+            <p class="mb-3">
+              Di functional components, state dikelola menggunakan Hook
+              `useState`.
+            </p>
+            <pre><code class="language-jsx">import React, { useState } from 'react';
+
+function Counter() {
+  // Deklarasi state 'hitungan' dengan nilai awal 0
+  // hitungan: nilai state saat ini
+  // setHitungan: fungsi untuk memperbarui state 'hitungan'
+  const [hitungan, setHitungan] = useState(0);
+
+  return (
+    &lt;div&gt;
+      &lt;p className="text-lg mb-2"&gt;Nilai hitungan: {hitungan}&lt;/p&gt;
+      &lt;button 
+        onClick={() => setHitungan(hitungan + 1)}
+        className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-2 px-4 rounded mr-2"
+      &gt;
+        Tambah
+      &lt;/button&gt;
+      &lt;button 
+        onClick={() => setHitungan(prevHitungan => prevHitungan - 1)} // Cara aman update berdasarkan state sebelumnya
+        className="bg-sky-500 hover:bg-sky-600 text-white font-semibold py-2 px-4 rounded"
+      &gt;
+        Kurang
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+          </article>
+          <article class="p-6 bg-slate-800 rounded-xl shadow-md">
+            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
+              Props vs. State 🤔
+            </h3>
+            <div class="overflow-x-auto">
+              <table
+                class="min-w-full bg-slate-700 border border-slate-600 rounded-md"
+              >
+                <thead class="bg-slate-600">
+                  <tr>
+                    <th class="text-left py-3 px-4 font-semibold">Fitur</th>
+                    <th class="text-left py-3 px-4 font-semibold">Props</th>
+                    <th class="text-left py-3 px-4 font-semibold">State</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-600">
+                  <tr>
+                    <td class="py-3 px-4">Sumber Data</td>
+                    <td class="py-3 px-4">Eksternal (dari komponen induk)</td>
+                    <td class="py-3 px-4">
+                      Internal (dikelola komponen sendiri)
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="py-3 px-4">Sifat</td>
+                    <td class="py-3 px-4">
+                      Read-only (tidak bisa diubah anak)
+                    </td>
+                    <td class="py-3 px-4">
+                      Mutable (bisa diubah oleh komponen)
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="py-3 px-4">Tujuan</td>
+                    <td class="py-3 px-4">
+                      Meneruskan data & konfigurasi ke anak
+                    </td>
+                    <td class="py-3 px-4">Mengelola data dinamis internal</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="mt-4">
+              <strong>Lifting State Up:</strong> Jika beberapa komponen perlu
+              berbagi state, state tersebut "diangkat" ke komponen induk
+              terdekat dan diteruskan ke anak melalui props.
+            </p>
+          </article>
+        </section>
+
+        <hr class="my-12 border-slate-700" />
+
+        <section id="form-list" class="mb-16 scroll-mt-20">
+          <h2
+            class="text-3xl font-bold text-sky-400 mb-6 border-l-4 border-emerald-500 pl-4"
+          >
+            📝 Form & List
+          </h2>
+          <p class="mb-6 text-lg leading-relaxed">
+            Mengelola input pengguna melalui form dan menampilkan daftar data
+            adalah tugas umum dalam aplikasi web.
+          </p>
+
+          <article class="mb-8 p-6 bg-slate-800 rounded-xl shadow-md">
+            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
+              Formulir (Controlled Components)
+            </h3>
+            <p class="mb-3">
+              Dalam React, pendekatan umum untuk form adalah menggunakan
+              "Controlled Components", di mana data form dikelola oleh state
+              React.
+            </p>
+            <pre><code class="language-jsx">import React, { useState } from 'react';
+
+function MyForm() {
+  const [inputValue, setInputValue] = useState('');
+
+  const handleChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Mencegah reload halaman
+    alert('Nilai yang disubmit: ' + inputValue);
+    setInputValue(''); // Reset input
+  };
+
+  return (
+    &lt;form onSubmit={handleSubmit} className="space-y-4"&gt;
+      &lt;label htmlFor="myInput" className="block text-lg font-medium"&gt;Masukkan Teks:&lt;/label&gt;
+      &lt;input
+        type="text"
+        id="myInput"
+        value={inputValue} // Nilai input dikontrol oleh state
+        onChange={handleChange} // Fungsi untuk update state
+        className="block w-full p-3 bg-slate-700 border border-slate-600 rounded-md focus:ring-sky-500 focus:border-sky-500"
+      /&gt;
+      &lt;button type="submit" className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-2 px-6 rounded-md"&gt;
+        Kirim
+      &lt;/button&gt;
+    &lt;/form&gt;
+  );
+}</code></pre>
+          </article>
+
+          <article class="p-6 bg-slate-800 rounded-xl shadow-md">
+            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
+              Menampilkan Daftar (Lists)
+            </h3>
+            <p class="mb-3">
+              Untuk me-render daftar elemen, gunakan metode `.map()` pada array.
+              Penting untuk memberikan atribut `key` yang unik dan stabil untuk
+              setiap item list agar React dapat mengelola pembaruan secara
+              efisien.
+            </p>
+            <pre><code class="language-jsx">function ItemList({ items }) {
+  // items adalah array objek, contoh: [{ id: 'a1', name: 'Apel' }, { id: 'b2', name: 'Jeruk' }]
+  if (!items || items.length === 0) {
+    return &lt;p&gt;Tidak ada item untuk ditampilkan.&lt;/p&gt;;
+  }
+  return (
+    &lt;ul className="list-disc list-inside space-y-2 p-4 bg-slate-700 rounded-md"&gt;
+      {items.map((item) => (
+        &lt;li key={item.id} className="text-slate-300"&gt; 
+          {item.name} 
+        &lt;/li&gt;
+        // Key 'item.id' harus unik dan stabil
+      ))}
+    &lt;/ul&gt;
+  );
+}
+
+// Contoh penggunaan:
+// const daftarBuah = [{ id: 'f1', name: 'Mangga' }, { id: 'f2', name: 'Pisang' }];
+// &lt;ItemList items={daftarBuah} /&gt;</code></pre>
+            <p class="mt-3">
+              <strong>Hindari menggunakan index array sebagai `key`</strong>
+              jika urutan item dapat berubah, karena dapat menyebabkan masalah
+              performa dan state yang tidak konsisten.
+            </p>
+          </article>
+        </section>
+
+        <hr class="my-12 border-slate-700" />
+
+        <section id="studi-kasus" class="mb-16 scroll-mt-20">
+          <h2
+            class="text-3xl font-bold text-sky-400 mb-6 border-l-4 border-emerald-500 pl-4"
+          >
+            🔨 Studi Kasus: Aplikasi To-Do List
+          </h2>
+          <p class="mb-6 text-lg leading-relaxed">
+            Menerapkan konsep yang telah dipelajari untuk membangun aplikasi
+            To-Do List sederhana.
+          </p>
+
+          <article class="mb-8 p-6 bg-slate-800 rounded-xl shadow-md">
+            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
+              Fitur Utama
+            </h3>
+            <ul class="list-disc list-inside space-y-2 pl-2">
+              <li>Menambah task baru.</li>
+              <li>Menampilkan daftar task.</li>
+              <li>Menandai task sebagai selesai/belum selesai (toggle).</li>
+              <li>Menghapus task.</li>
+            </ul>
+          </article>
+
+          <article class="mb-8 p-6 bg-slate-800 rounded-xl shadow-md">
+            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
+              Struktur Komponen (Saran)
+            </h3>
+            <ul class="list-disc list-inside space-y-2 pl-2">
+              <li>
+                `App.jsx`: Komponen root, mengelola state utama (daftar tasks)
+                dan logika utama.
+              </li>
+              <li>`TodoForm.jsx`: Form untuk input task baru.</li>
+              <li>`TodoList.jsx`: Menampilkan daftar task.</li>
+              <li>`TodoItem.jsx`: Menampilkan satu item task individual.</li>
+            </ul>
+            <p class="mt-3">Secara konseptual, struktur komponennya:</p>
+            <pre><code class="language-text">App
+├── TodoForm
+└── TodoList
+    └── TodoItem (dirender berulang)</code></pre>
+          </article>
+
+          <article class="p-6 bg-slate-800 rounded-xl shadow-md">
+            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
+              Struktur Data Task (Contoh)
+            </h3>
+            <p class="mb-3">
+              Setiap task bisa direpresentasikan sebagai objek:
+            </p>
+            <pre><code class="language-javascript">{
+  id: 'unik-id-string-atau-angka', // Wajib untuk 'key'
+  text: 'Isi dari task',             // String
+  isCompleted: false                 // Boolean, default false
+}</code></pre>
+            <p class="mt-3">
+              State utama di `App.jsx` bisa berupa array dari objek task ini:
+            </p>
+            <pre><code class="language-javascript">// const [tasks, setTasks] = useState([
+//   { id: 't1', text: 'Belajar React Hooks', isCompleted: true },
+//   { id: 't2', text: 'Membuat Aplikasi To-Do', isCompleted: false },
+// ]);</code></pre>
+            <p class="mt-3">
+              Ini adalah dasar untuk mulai membangun aplikasi To-Do List Anda.
+              Anda akan menggunakan `useState` untuk mengelola daftar tasks,
+              props untuk meneruskan data dan fungsi ke komponen anak, serta
+              form controlled component untuk input task.
+            </p>
+          </article>
+        </section>
+
+        <hr class="my-12 border-slate-700" />
+
+        <section id="kesimpulan" class="scroll-mt-20">
+          <h2
+            class="text-3xl font-bold text-sky-400 mb-6 border-l-4 border-emerald-500 pl-4"
+          >
+            🏁 Kesimpulan & Langkah Selanjutnya
+          </h2>
+          <p class="mb-6 text-lg leading-relaxed">
+            Selamat! Anda telah menjelajahi konsep-konsep inti React. Ini adalah
+            fondasi yang kuat untuk membangun aplikasi web modern.
+          </p>
+
+          <article class="mb-8 p-6 bg-slate-800 rounded-xl shadow-md">
+            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
+              Poin Kunci yang Dipelajari
+            </h3>
+            <ul class="list-disc list-inside space-y-2 pl-2">
+              <li>
+                React adalah pustaka UI berbasis komponen yang deklaratif.
+              </li>
+              <li>Vite mempercepat development React.</li>
+              <li>JSX memudahkan penulisan UI.</li>
+              <li>Berbagai metode styling dapat digunakan sesuai kebutuhan.</li>
+              <li>
+                State & Props adalah inti dari data dinamis dan interaksi
+                komponen.
+              </li>
+              <li>
+                Mengelola form (controlled components) dan list (dengan `.map()`
+                dan `key`) adalah pola umum.
+              </li>
+            </ul>
+          </article>
+
+          <article class="p-6 bg-slate-800 rounded-xl shadow-md">
+            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
+              Langkah Selanjutnya 🚀
+            </h3>
+            <ol class="list-decimal list-inside space-y-3 pl-2">
+              <li>
+                <strong>Praktik Lebih Banyak:</strong> Implementasikan aplikasi
+                To-Do List secara penuh. Coba tambahkan fitur seperti filter
+                atau edit task.
+              </li>
+              <li>
+                <strong>Pelajari Hooks Lebih Lanjut:</strong> Eksplorasi
+                `useEffect` (untuk side effects seperti data fetching),
+                `useContext` (untuk state management sederhana tanpa prop
+                drilling), `useReducer`, `useCallback`, `useMemo`.
+              </li>
+              <li>
+                <strong>Routing:</strong> Pelajari React Router untuk membangun
+                aplikasi multi-halaman (SPA dengan banyak view).
+              </li>
+              <li>
+                <strong>State Management Lanjutan:</strong> Untuk aplikasi
+                kompleks, pelajari pustaka state management global seperti
+                Zustand, Jotai, atau Redux.
+              </li>
+              <li>
+                <strong>Eksplorasi Ekosistem:</strong> Coba pustaka UI seperti
+                Material-UI atau Chakra UI. Pelajari tentang testing komponen
+                React.
+              </li>
+              <li>
+                <strong>Kontribusi & Komunitas:</strong> Bergabung dengan
+                komunitas React, baca blog, dan jika memungkinkan, berkontribusi
+                pada proyek open-source.
+              </li>
+            </ol>
+            <p class="mt-4">
+              Teruslah belajar dan membangun. Semoga sukses dalam perjalanan
+              React Anda!
+            </p>
+          </article>
+        </section>
+
+        <footer
+          class="mt-20 pt-8 border-t border-slate-700 text-center text-slate-500"
+        >
+          <p>
+            &copy; 2025 Panduan Belajar React Interaktif. Dibuat dengan cinta
+            untuk pembelajaran.
+          </p>
+        </footer>
+      </main>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const navLinks = document.querySelectorAll(".nav-link");
+        const sections = document.querySelectorAll("main section"); // Ambil semua section di main
+        let currentActive = null;
+
+        function setActiveLink(link) {
+          if (currentActive) {
+            currentActive.classList.remove("active");
+          }
+          if (link) {
+            link.classList.add("active");
+            currentActive = link;
+          }
+        }
+
+        // Set active link on page load based on hash or first link
+        let initialHash = window.location.hash;
+        if (initialHash) {
+          const activeLinkOnLoad = document.querySelector(
+            `.nav-link[href="${initialHash}"]`
+          );
+          if (activeLinkOnLoad) {
+            setActiveLink(activeLinkOnLoad);
+          }
+        } else if (navLinks.length > 0) {
+          // Jika tidak ada hash, set link pertama sebagai aktif
+          setActiveLink(navLinks[0]);
+        }
+
+        navLinks.forEach((link) => {
+          link.addEventListener("click", function (event) {
+            // event.preventDefault(); // Kita biarkan default agar URL hash berubah
+            setActiveLink(this);
+            const targetId = this.getAttribute("href");
+            // const targetElement = document.querySelector(targetId);
+            // if (targetElement) {
+            //     targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // }
+          });
+        });
+
+        // Optional: Update active link on scroll
+        const observerOptions = {
+          root: null, // relative to document viewport
+          rootMargin: "-70px 0px -50% 0px", // top offset for navbar, bottom offset
+          threshold: 0, // trigger when 0% of the element is visible
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const link = document.querySelector(
+                `.nav-link[href="#${entry.target.id}"]`
+              );
+              setActiveLink(link);
+            }
+          });
+        }, observerOptions);
+
+        sections.forEach((section) => {
+          observer.observe(section);
+        });
+
+        // Update hash in URL without jumping, for better UX with IntersectionObserver
+        window.addEventListener(
+          "hashchange",
+          () => {
+            const hash = window.location.hash;
+            const correspondingLink = document.querySelector(
+              `.nav-link[href="${hash}"]`
+            );
+            if (
+              correspondingLink &&
+              !correspondingLink.classList.contains("active")
+            ) {
+              // Only set active if not already set by IntersectionObserver
+              // to prevent jitter if observer is slightly delayed
+              // setActiveLink(correspondingLink); // This might cause jitter if observer is also working
+            }
+          },
+          false
+        );
+      });
+    </script>
+  </body>
+</html>
