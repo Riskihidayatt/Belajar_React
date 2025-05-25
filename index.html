@@ -1,936 +1,939 @@
 <!DOCTYPE html>
-<html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Belajar React Interaktif Lengkap</title>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan React Interaktif Lengkap</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      body {
-        font-family: "Inter", sans-serif;
-      }
-      html {
-        scroll-behavior: smooth;
-      }
-      .nav-link.active {
-        background-color: #059669; /* emerald-600 */
-        color: white;
-        transform: translateX(5px);
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-          0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      }
-      .nav-link:hover:not(.active) {
-        background-color: #374151; /* gray-700 */
-        color: #f0f9ff; /* sky-50 */
-      }
-      pre {
-        background-color: #1f2937; /* gray-800 */
-        color: #f9fafb; /* gray-50 */
-        border: 1px solid #374151; /* gray-700 */
-        border-radius: 0.375rem; /* rounded-md */
-        padding: 1rem;
-        overflow-x: auto;
-        font-size: 0.875rem; /* text-sm */
-        line-height: 1.25rem;
-      }
-      code.language-jsx .token.tag,
-      code.language-jsx .token.attr-name,
-      code.language-jsx .token.namespace {
-        color: #60a5fa; /* sky-400 */
-      }
-      code.language-jsx .token.punctuation {
-        color: #9ca3af; /* gray-400 */
-      }
-      code.language-jsx .token.operator {
-        color: #f472b6; /* pink-400 */
-      }
-      code.language-jsx .token.string,
-      code.language-jsx .token.attr-value {
-        color: #a7f3d0; /* emerald-200 */
-      }
-      code.language-jsx .token.keyword {
-        color: #f08080; /* lightcoral */
-      }
-      code.language-jsx .token.comment {
-        color: #6b7280; /* gray-500 */
-      }
-      code.language-jsx .token.function,
-      code.language-jsx .token.class-name {
-        color: #fcd34d; /* amber-300 */
-      }
-      code.language-javascript .token.keyword {
-        color: #c084fc; /* purple-400 */
-      }
-      code.language-javascript .token.string {
-        color: #a7f3d0; /* emerald-200 */
-      }
-      code.language-javascript .token.function {
-        color: #fcd34d; /* amber-300 */
-      }
-      code.language-javascript .token.comment {
-        color: #6b7280; /* gray-500 */
-      }
-      code.language-css .token.selector {
-        color: #f08080; /* lightcoral */
-      }
-      code.language-css .token.property {
-        color: #60a5fa; /* sky-400 */
-      }
-      code.language-css .token.string {
-        color: #a7f3d0; /* emerald-200 */
-      }
-      /* Custom scrollbar */
-      ::-webkit-scrollbar {
-        width: 10px;
-        height: 10px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #1f2937; /* gray-800 */
-        border-radius: 10px;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #4b5563; /* gray-600 */
-        border-radius: 10px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #6b7280; /* gray-500 */
-      }
-      section:target::before {
-        content: "";
-        display: block;
-        height: 70px; /* Tinggi navbar */
-        margin-top: -70px; /* Negatif tinggi navbar */
-        visibility: hidden;
-      }
+        /* Base Styles - Light Mode (Cosmic Latte) */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            background-color: #FFF8E7; /* Latte */
+            color: #4A4A4A; /* Dark Gray */
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        html.dark body {
+            background-color: #171923; /* Very Dark Slate/Charcoal for body */
+            color: #E2E8F0; /* Light Gray/Off-white for text */
+        }
+
+        /* Scroll Behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+        section[id]::before {
+            content: "";
+            display: block;
+            height: 80px; 
+            margin-top: -80px;
+            visibility: hidden;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            background-color: white;
+            color: #4A4A4A; 
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            border-right: 1px solid #E5E7EB; /* Light border for light mode */
+        }
+        html.dark .sidebar {
+            background-color: #1A202C; /* Darker Slate for dark mode sidebar */
+            color: #CBD5E1; 
+            border-right-color: #2D3748; /* Darker border for dark mode */
+        }
+        .main-title {
+            color: #FF6B6B; /* Coral */
+            border-bottom-color: #4ECDC4; /* Turquoise */
+            transition: color 0.3s ease, border-bottom-color 0.3s ease;
+        }
+        html.dark .main-title {
+            color: #F87171; /* Brighter Coral for dark mode */
+            border-bottom-color: #2DD4BF; /* Brighter Turquoise for dark mode */
+        }
+        html.dark .main-title span {
+            color: #CBD5E1; 
+        }
+
+        .nav-link {
+            transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            color: #4A4A4A; /* Default nav link color for light mode */
+        }
+        html.dark .nav-link {
+            color: #A0AEC0; /* Lighter gray for nav links in dark mode */
+        }
+        .nav-link.active {
+            background-color: #FF6B6B; /* Coral */
+            color: white !important;
+            font-weight: 600;
+            transform: translateX(4px);
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.12);
+        }
+        html.dark .nav-link.active {
+            background-color: #F87171; /* Brighter Coral */
+            color: #1A202C !important; /* Dark text for active link in dark mode for contrast */
+        }
+        .nav-link:hover:not(.active) {
+            background-color: #F7F7F7; /* Light Gray Neutral */
+            color: #FF6B6B !important; /* Coral */
+            transform: translateX(2px);
+        }
+        html.dark .nav-link:hover:not(.active) {
+            background-color: #2D3748; /* Darker Slate Hover */
+            color: #F87171 !important; /* Brighter Coral */
+        }
+
+        /* Main Content Area */
+        .main-content-header h2 {
+            color: #374151; 
+        }
+        html.dark .main-content-header h2 {
+            color: #E5E7EB; 
+        }
+        .main-content-header p {
+            color: #6B7280; 
+        }
+        html.dark .main-content-header p {
+            color: #9CA3AF; 
+        }
+        .section-title {
+             color: #4ECDC4; /* Turquoise */
+             border-left-color: #FF6B6B; /* Coral */
+             transition: color 0.3s ease, border-left-color 0.3s ease;
+        }
+        html.dark .section-title {
+             color: #2DD4BF; /* Brighter Turquoise */
+             border-left-color: #F87171; /* Brighter Coral */
+        }
+        .content-card {
+            background-color: white;
+            border-radius: 0.75rem; 
+            padding: 1.75rem; 
+            box-shadow: 0 10px 15px -3px rgba(74, 74, 74, 0.07), 0 4px 6px -2px rgba(74, 74, 74, 0.05);
+            margin-bottom: 2.5rem;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        html.dark .content-card {
+            background-color: #2D3748; /* Dark Slate for cards */
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.25), 0 4px 6px -2px rgba(0,0,0,0.2);
+        }
+        .content-card h3 {
+            color: #FF6B6B; /* Coral */
+            transition: color 0.3s ease;
+        }
+        html.dark .content-card h3 {
+            color: #F87171; /* Brighter Coral */
+        }
+        .content-card p, .content-card ul, .content-card ol, .content-card table {
+             color: #4A4A4A; 
+             transition: color 0.3s ease;
+        }
+        html.dark .content-card p, html.dark .content-card ul, html.dark .content-card ol, html.dark .content-card table {
+             color: #CBD5E1; 
+        }
+        /* Table specific dark mode styles */
+        html.dark .content-card table {
+            border-color: #4A5568;
+        }
+        html.dark .content-card table thead {
+            background-color: #1E293B; 
+        }
+         html.dark .content-card table th {
+            color: #E2E8F0;
+            border-color: #4A5568;
+        }
+        html.dark .content-card table tbody {
+            divide-color: #4A5568; 
+        }
+        html.dark .content-card table td {
+            border-color: #4A5568;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: #2d3748; 
+            color: #e2e8f0; 
+            border: 1px solid #4a5568; 
+            border-radius: 0.5rem; 
+            padding: 1.25rem; 
+            overflow-x: auto;
+            font-size: 0.9rem; 
+            line-height: 1.6;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+        html.dark pre {
+            background-color: #1e293b; /* Even darker for code blocks in dark mode */
+            border-color: #334155;
+        }
+        code {
+            font-family: 'Fira Code', 'Consolas', 'Courier New', Courier, monospace;
+        }
+        /* Basic Syntax Highlighting Simulation (consistent across modes for now) */
+        code .token.comment { color: #a0aec0; font-style: italic; }
+        code .token.punctuation { color: #cbd5e0; }
+        code .token.keyword { color: #f687b3; font-weight: bold; }
+        code .token.operator { color: #f6ad55; }
+        code .token.string, code .token.attr-value { color: #9ae6b4; }
+        code .token.function, code .token.class-name { color: #63b3ed; font-weight: bold;}
+        code .token.tag, code .token.attr-name, code .token.namespace { color: #ed8936; }
+        code .token.number, code .token.boolean { color: #faf089; }
+        code .token.variable, code .token.constant { color: #d53f8c; }
+        code .token.parameter { color: #fbbf24; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F7F7F7; 
+        }
+        html.dark ::-webkit-scrollbar-track {
+            background: #2D3748; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4ECDC4; 
+            border-radius: 10px;
+            border: 2px solid #F7F7F7;
+        }
+        html.dark ::-webkit-scrollbar-thumb {
+            background: #2DD4BF; 
+            border-color: #2D3748;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3dbbb2; 
+        }
+        html.dark ::-webkit-scrollbar-thumb:hover {
+            background: #239a8f;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            background-color: #F7F7F7;
+            color: #4A4A4A;
+            border: 1px solid #E5E7EB;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+        html.dark .theme-toggle {
+            background-color: #2D3748;
+            color: #E2E8F0;
+            border-color: #4A5568;
+        }
+        .theme-toggle:hover {
+            background-color: #E5E7EB;
+        }
+        html.dark .theme-toggle:hover {
+            background-color: #4A5568;
+        }
+        
+        /* Footer */
+        .footer {
+            border-top-color: #E5E7EB;
+            color: #6B7280;
+        }
+        html.dark .footer {
+            border-top-color: #2D3748;
+            color: #9CA3AF;
+        }
+        /* Specific overrides for elements inside cards in dark mode if needed */
+        html.dark .content-card .profile-card,
+        html.dark .content-card .p-4.border.rounded-md.bg-gray-50, /* Example: for UserProfile card */
+        html.dark .content-card .space-y-4.p-4.border.border-gray-300.rounded-lg.bg-gray-50 /* Example: for NameForm card */
+        {
+            background-color: #1e293b; /* Darker slate for nested cards */
+            border-color: #334155;
+        }
+        html.dark .content-card .text-gray-800 { color: #E2E8F0; }
+        html.dark .content-card .text-gray-700 { color: #CBD5E1; }
+        html.dark .content-card .text-gray-600 { color: #A0AEC0; }
+        html.dark .content-card .text-gray-500 { color: #9CA3AF; }
+        html.dark .content-card .bg-gray-100 { background-color: #334155; } /* Table head */
+        html.dark .content-card .border-gray-200 { border-color: #4A5568; } /* Table borders */
+        html.dark .content-card .divide-gray-200 { divide-color: #4A5568; } /* Table row divides */
+        html.dark .content-card input.bg-white {
+            background-color: #334155;
+            border-color: #4A5568;
+            color: #E2E8F0;
+        }
+        html.dark .content-card input.bg-white::placeholder {
+            color: #9CA3AF;
+        }
+        html.dark .content-card .bg-coral-500 { background-color: #F87171; }
+        html.dark .content-card .hover\:bg-coral-600:hover { background-color: #E15A5A; }
+        html.dark .content-card .bg-emerald-500 { background-color: #34D399; }
+        html.dark .content-card .hover\:bg-emerald-600:hover { background-color: #10B981; }
+        html.dark .content-card .bg-gray-400 { background-color: #6B7280; }
+        html.dark .content-card .hover\:bg-gray-500:hover { background-color: #4B5563; }
     </style>
-  </head>
-  <body class="bg-slate-900 text-slate-200">
-    <div class="flex">
-      <nav
-        class="fixed top-0 left-0 w-72 h-screen bg-slate-800 p-5 space-y-3 overflow-y-auto shadow-lg z-20"
-      >
-        <h1
-          class="text-3xl font-bold text-sky-400 mb-8 border-b-2 border-sky-500 pb-2"
-        >
-          🚀 Belajar React
-        </h1>
-        <a
-          href="#pengenalan"
-          class="nav-link block py-3 px-4 rounded-lg transition-all duration-300 ease-in-out hover:text-sky-300"
-          >🌐 Pengenalan & Vite</a
-        >
-        <a
-          href="#jsx"
-          class="nav-link block py-3 px-4 rounded-lg transition-all duration-300 ease-in-out hover:text-sky-300"
-          >✨ JSX</a
-        >
-        <a
-          href="#styling"
-          class="nav-link block py-3 px-4 rounded-lg transition-all duration-300 ease-in-out hover:text-sky-300"
-          >🎨 Styling</a
-        >
-        <a
-          href="#interaksi"
-          class="nav-link block py-3 px-4 rounded-lg transition-all duration-300 ease-in-out hover:text-sky-300"
-          >🔗 Interaksi Komponen</a
-        >
-        <a
-          href="#form-list"
-          class="nav-link block py-3 px-4 rounded-lg transition-all duration-300 ease-in-out hover:text-sky-300"
-          >📝 Form & List</a
-        >
-        <a
-          href="#studi-kasus"
-          class="nav-link block py-3 px-4 rounded-lg transition-all duration-300 ease-in-out hover:text-sky-300"
-          >🔨 Studi Kasus: To-Do</a
-        >
-        <a
-          href="#kesimpulan"
-          class="nav-link block py-3 px-4 rounded-lg transition-all duration-300 ease-in-out hover:text-sky-300"
-          >🏁 Kesimpulan</a
-        >
-      </nav>
+</head>
+<body>
+    <div class="flex min-h-screen">
+        <nav class="sidebar fixed top-0 left-0 w-80 h-full p-6 space-y-2.5 overflow-y-auto shadow-2xl z-30 border-r">
+            <h1 class="text-3xl font-extrabold main-title pb-3 mb-8">
+                <span class="text-inherit">Belajar</span> React
+            </h1>
+            <a href="#pengenalan" class="nav-link block py-3.5 px-5 rounded-lg text-base transition-all duration-250 ease-in-out">🌐 Pengenalan & Vite</a>
+            <a href="#jsx" class="nav-link block py-3.5 px-5 rounded-lg text-base transition-all duration-250 ease-in-out">✨ JSX</a>
+            <a href="#styling" class="nav-link block py-3.5 px-5 rounded-lg text-base transition-all duration-250 ease-in-out">🎨 Styling</a>
+            <a href="#interaksi" class="nav-link block py-3.5 px-5 rounded-lg text-base transition-all duration-250 ease-in-out">🔗 Interaksi Komponen</a>
+            <a href="#form-list" class="nav-link block py-3.5 px-5 rounded-lg text-base transition-all duration-250 ease-in-out">📝 Form & List</a>
+            <a href="#studi-kasus" class="nav-link block py-3.5 px-5 rounded-lg text-base transition-all duration-250 ease-in-out">🔨 Studi Kasus: To-Do</a>
+            <a href="#kesimpulan" class="nav-link block py-3.5 px-5 rounded-lg text-base transition-all duration-250 ease-in-out">🏁 Kesimpulan</a>
+        
+            <div class="pt-8 mt-auto">
+                <button id="theme-toggle" class="theme-toggle w-full py-2.5 px-4 rounded-lg text-sm font-medium flex items-center justify-center">
+                    <span id="theme-toggle-icon" class="mr-2">🌙</span><span id="theme-toggle-text">Mode Gelap</span>
+                </button>
+            </div>
+        </nav>
 
-      <main class="ml-72 p-10 flex-1 overflow-y-auto" style="min-height: 100vh">
-        <header class="mb-12">
-          <h2 class="text-4xl font-extrabold text-sky-300">
-            Selamat Datang di Panduan Interaktif React!
-          </h2>
-          <p class="text-slate-400 mt-2 text-lg">
-            Jelajahi konsep-konsep React dari dasar hingga pembuatan aplikasi
-            sederhana.
-          </p>
-        </header>
+        <main class="ml-80 p-10 md:p-12 flex-1 overflow-y-auto">
+            <header class="mb-16 text-center main-content-header">
+                <h2 class="text-5xl font-extrabold">Panduan Interaktif React</h2>
+                <p class="mt-3 text-xl">Dari Konsep Dasar hingga Aplikasi Pertama Anda.</p>
+            </header>
 
-        <section id="pengenalan" class="mb-16 scroll-mt-20">
-          <h2
-            class="text-3xl font-bold text-sky-400 mb-6 border-l-4 border-emerald-500 pl-4"
-          >
-            🌐 Pengenalan React & Vite
-          </h2>
-          <p class="mb-6 text-lg leading-relaxed">
-            Bagian ini akan memandu Anda memahami apa itu React, mengapa ia
-            begitu populer, dan bagaimana cara cepat memulai proyek menggunakan
-            Vite.
-          </p>
+            <section id="pengenalan" class="mb-16">
+                <h2 class="text-4xl font-bold section-title pl-4 mb-8">🌐 Pengenalan React & Vite</h2>
+                <p class="mb-8 text-lg leading-relaxed">Selamat datang di dunia React! Di bagian ini, kita akan menjelajahi apa itu React, mengapa ia menjadi pilihan populer untuk membangun antarmuka pengguna, dan bagaimana Anda bisa dengan cepat memulai proyek React menggunakan Vite.</p>
+                
+                <article class="content-card">
+                    <h3 class="text-3xl font-semibold mb-5">Apa itu React? ⚛️</h3>
+                    <p class="mb-4 leading-loose">React adalah sebuah pustaka (library) JavaScript yang <em>deklaratif</em>, <em>efisien</em>, dan <em>fleksibel</em> yang dikembangkan oleh Facebook. Tujuan utamanya adalah untuk membangun antarmuka pengguna (User Interfaces - UI) yang kompleks dan interaktif dari potongan-potongan kode kecil yang disebut <strong>komponen</strong>.</p>
+                    <p class="leading-loose">Pendekatan <em>deklaratif</em> React memungkinkan Anda untuk mendeskripsikan bagaimana UI seharusnya terlihat berdasarkan data (<em>state</em>) aplikasi saat ini. React kemudian akan secara cerdas dan efisien memperbarui DOM (Document Object Model) hanya ketika data tersebut berubah, memastikan aplikasi Anda tetap cepat dan responsif.</p>
+                </article>
 
-          <article class="mb-8 p-6 bg-slate-800 rounded-xl shadow-md">
-            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
-              Apa itu React? ⚛️
-            </h3>
-            <p class="mb-3">
-              React adalah sebuah pustaka JavaScript yang <em>deklaratif</em>,
-              <em>efisien</em>, dan <em>fleksibel</em> untuk membangun antarmuka
-              pengguna (UI) yang kompleks dan interaktif. Dikembangkan oleh
-              Facebook, React memungkinkan developer untuk membuat komponen UI
-              yang dapat digunakan kembali (<em>reusable components</em>).
-            </p>
-            <p>
-              Pendekatan <em>deklaratif</em> React berarti Anda cukup
-              mendeskripsikan bagaimana UI seharusnya terlihat berdasarkan data
-              (<em>state</em>) saat ini, dan React akan secara otomatis
-              memperbarui DOM ketika data tersebut berubah.
-            </p>
-          </article>
+                <article class="content-card">
+                    <h3 class="text-3xl font-semibold mb-5">Mengapa React Begitu Populer?</h3>
+                    <ul class="list-disc list-inside space-y-4 pl-2 leading-loose">
+                        <li><strong>Virtual DOM:</strong> React menggunakan konsep Virtual DOM untuk optimasi performa. Alih-alih memanipulasi DOM browser secara langsung (yang bisa lambat), React membuat representasi DOM di memori. Ketika state berubah, React memperbarui Virtual DOM, membandingkannya dengan versi sebelumnya (proses "diffing"), dan kemudian hanya menerapkan perubahan yang diperlukan ke DOM browser yang sebenarnya (proses "reconciliation").</li>
+                        <li><strong>Arsitektur Berbasis Komponen:</strong> Memecah UI menjadi komponen-komponen kecil yang independen, dapat digunakan kembali (reusable), dan memiliki logikanya sendiri. Ini membuat kode lebih modular, mudah dikelola, diuji, dan diskalakan seiring pertumbuhan aplikasi.</li>
+                        <li><strong>Ekosistem yang Luas dan Aktif:</strong> React memiliki komunitas developer yang sangat besar dan aktif. Ini berarti banyak sekali sumber daya pembelajaran, tutorial, pustaka pihak ketiga (seperti React Router untuk navigasi, Redux/Zustand untuk manajemen state yang kompleks), dan dukungan yang tersedia secara online.</li>
+                        <li><strong>Unidirectional Data Flow (Aliran Data Satu Arah):</strong> Data di aplikasi React umumnya mengalir dalam satu arah (biasanya dari komponen induk ke komponen anak melalui props). Ini membuat state aplikasi lebih mudah diprediksi, dipahami, dan di-debug.</li>
+                        <li><strong>Didukung oleh Facebook dan Komunitas:</strong> Pengembangan dan pemeliharaan React yang berkelanjutan oleh Facebook dan kontribusi dari komunitas global memastikan relevansi dan kemajuan teknologi ini.</li>
+                    </ul>
+                </article>
 
-          <article class="mb-8 p-6 bg-slate-800 rounded-xl shadow-md">
-            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
-              Mengapa React Begitu Populer?
-            </h3>
-            <ul class="list-disc list-inside space-y-3 pl-2">
-              <li>
-                <strong>Virtual DOM:</strong> React menggunakan Virtual DOM
-                untuk optimasi performa. Perubahan pada UI pertama kali
-                diterapkan pada representasi DOM di memori (Virtual DOM),
-                kemudian React menghitung cara paling efisien untuk memperbarui
-                DOM browser yang sebenarnya. Ini meminimalkan manipulasi DOM
-                langsung yang mahal.
-              </li>
-              <li>
-                <strong>Berbasis Komponen:</strong> Memecah UI menjadi
-                komponen-komponen kecil yang independen dan dapat digunakan
-                kembali membuat kode lebih modular, mudah dikelola, dan
-                diskalakan.
-              </li>
-              <li>
-                <strong>Ekosistem Besar:</strong> Komunitas yang besar dan aktif
-                berarti banyak sumber daya, pustaka pihak ketiga (seperti React
-                Router untuk navigasi, Redux/Zustand untuk state management),
-                dan dukungan yang tersedia.
-              </li>
-              <li>
-                <strong>Unidirectional Data Flow:</strong> Aliran data satu arah
-                (biasanya dari komponen induk ke anak melalui props) membuat
-                state aplikasi lebih mudah diprediksi dan di-debug.
-              </li>
-            </ul>
-          </article>
+                <article class="content-card">
+                    <h3 class="text-3xl font-semibold mb-5">Memulai Proyek React dengan Vite ⚡</h3>
+                    <p class="mb-4 leading-loose">Vite adalah alat bantu pengembangan web modern yang menawarkan pengalaman pengembangan frontend yang sangat cepat. Ia menyediakan server pengembangan dengan Hot Module Replacement (HMR) yang hampir instan dan proses build yang sangat dioptimalkan.</p>
+                    <p class="mb-4 leading-loose">Untuk membuat proyek React baru menggunakan Vite, buka terminal Anda dan jalankan perintah berikut:</p>
+                    <pre><code class="language-bash"><span class="token comment"># Ganti 'nama-proyek-anda' dengan nama direktori yang diinginkan</span>
+<span class="token keyword">npm</span> create vite@latest nama-proyek-anda <span class="token operator">--</span> <span class="token operator">--</span>template react</code></pre>
+                    <p class="mt-4 mb-4 leading-loose">Setelah proyek berhasil dibuat, navigasikan ke direktori proyek tersebut:</p>
+                    <pre><code class="language-bash"><span class="token keyword">cd</span> nama-proyek-anda</code></pre>
+                    <p class="mt-4 mb-4 leading-loose">Kemudian, instal semua dependensi yang dibutuhkan oleh proyek:</p>
+                    <pre><code class="language-bash"><span class="token keyword">npm</span> install</code></pre>
+                    <p class="mt-4 mb-4 leading-loose">Terakhir, jalankan server pengembangan Vite:</p>
+                    <pre><code class="language-bash"><span class="token keyword">npm</span> run dev</code></pre>
+                    <p class="mt-4 leading-loose">Vite akan memulai server pengembangan, dan aplikasi React Anda akan dapat diakses melalui browser, biasanya pada alamat <code class="token string">http://localhost:5173</code>. Anda akan melihat halaman selamat datang React yang siap untuk Anda modifikasi.</p>
+                </article>
+            </section>
 
-          <article class="p-6 bg-slate-800 rounded-xl shadow-md">
-            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
-              Memulai dengan Vite ⚡
-            </h3>
-            <p class="mb-3">
-              Vite adalah alat bantu pengembangan web modern yang memberikan
-              pengalaman pengembangan frontend yang sangat cepat. Ia menyediakan
-              server pengembangan dengan Hot Module Replacement (HMR) instan dan
-              build yang dioptimalkan.
-            </p>
-            <p class="mb-3">Untuk membuat proyek React baru dengan Vite:</p>
-            <pre><code class="language-bash">npm create vite@latest nama-proyek-react -- --template react</code></pre>
-            <p class="mt-3 mb-3">
-              Setelah proyek dibuat, navigasikan ke direktori proyek dan instal
-              dependensi:
-            </p>
-            <pre><code class="language-bash">cd nama-proyek-react
-npm install</code></pre>
-            <p class="mt-3">Kemudian, jalankan server pengembangan:</p>
-            <pre><code class="language-bash">npm run dev</code></pre>
-            <p class="mt-3">
-              Vite akan memulai server dan aplikasi React Anda akan dapat
-              diakses di browser, biasanya di
-              <code class="text-emerald-400">http://localhost:5173</code>.
-            </p>
-          </article>
-        </section>
+            <hr class="my-16 border-gray-300 html.dark:border-gray-700">
 
-        <hr class="my-12 border-slate-700" />
+            <section id="jsx" class="mb-16">
+                <h2 class="text-4xl font-bold section-title pl-4 mb-8">✨ JSX: JavaScript XML</h2>
+                <p class="mb-8 text-lg leading-relaxed">JSX adalah ekstensi sintaks untuk JavaScript yang sangat direkomendasikan (dan hampir selalu digunakan) saat bekerja dengan React. Ini memungkinkan Anda menulis markup mirip HTML langsung di dalam file JavaScript Anda, membuat kode untuk UI lebih intuitif dan mudah dibaca.</p>
 
-        <section id="jsx" class="mb-16 scroll-mt-20">
-          <h2
-            class="text-3xl font-bold text-sky-400 mb-6 border-l-4 border-emerald-500 pl-4"
-          >
-            ✨ JSX: JavaScript XML
-          </h2>
-          <p class="mb-6 text-lg leading-relaxed">
-            JSX adalah ekstensi sintaks untuk JavaScript yang memungkinkan Anda
-            menulis markup mirip HTML langsung di dalam file JavaScript Anda.
-            Ini membuat pembuatan komponen React lebih intuitif.
-          </p>
+                <article class="content-card">
+                    <h3 class="text-3xl font-semibold mb-5">Memahami JSX Lebih Dalam</h3>
+                    <p class="mb-4 leading-loose">Meskipun terlihat seperti HTML, JSX bukanlah HTML. Browser tidak dapat memahami JSX secara langsung. JSX adalah "syntactic sugar" (gula sintaksis) untuk fungsi <code class="token function">React.createElement(component, props, ...children)</code>. Sebelum kode dijalankan di browser, JSX perlu dikompilasi (ditranspilasi) menjadi panggilan fungsi JavaScript biasa oleh alat seperti Babel (yang sudah terintegrasi dalam proyek Vite).</p>
+                    <p class="font-semibold mb-2">Contoh JSX dan Hasil Kompilasinya:</p>
+                    <pre><code class="language-jsx"><span class="token keyword">const</span> <span class="token variable">nama</span> <span class="token operator">=</span> <span class="token string">"Pengguna React"</span>;
+<span class="token keyword">const</span> <span class="token variable">elemen</span> <span class="token operator">=</span> <span class="token tag">&lt;h1</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>salam<span class="token punctuation">"</span></span><span class="token tag">&gt;</span>Halo, {nama}!<span class="token tag">&lt;/h1&gt;</span>;
 
-          <article class="mb-8 p-6 bg-slate-800 rounded-xl shadow-md">
-            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
-              Memahami JSX
-            </h3>
-            <p class="mb-3">
-              Meskipun terlihat seperti HTML, JSX sebenarnya adalah "syntactic
-              sugar" untuk fungsi `React.createElement(component, props,
-              ...children)`. Browser tidak memahami JSX secara langsung; ia
-              perlu dikompilasi menjadi JavaScript biasa oleh transpiler seperti
-              Babel (yang sudah terintegrasi dalam Vite).
-            </p>
-            <p class="font-semibold">Contoh JSX:</p>
-            <pre><code class="language-jsx">const nama = "Pengguna React";
-const elemen = &lt;h1 className="salam"&gt;Halo, {nama}!&lt;/h1&gt;;
+<span class="token comment">// JSX di atas, setelah dikompilasi, akan menjadi kurang lebih seperti ini:</span>
+<span class="token comment">// React.createElement("h1", {className: "salam"}, "Halo, ", nama, "!");</span></code></pre>
+                    <p class="mt-4 leading-loose">Menggunakan JSX membuat struktur komponen lebih visual dan mirip dengan hasil akhir HTML yang akan dirender, yang sangat membantu dalam pengembangan UI.</p>
+                </article>
 
-// JSX di atas akan dikompilasi menjadi:
-// React.createElement("h1", {className: "salam"}, "Halo, ", nama, "!");</code></pre>
-          </article>
+                <article class="content-card">
+                    <h3 class="text-3xl font-semibold mb-5">Aturan Penting dalam Penggunaan JSX</h3>
+                    <ul class="list-disc list-inside space-y-4 pl-2 leading-loose">
+                        <li><strong>Harus Ada Satu Elemen Induk (Root Element):</strong> Setiap komponen React yang me-render JSX harus mengembalikan satu elemen induk tunggal. Jika Anda perlu mengembalikan beberapa elemen sejajar, Anda harus membungkusnya dalam satu elemen pembungkus (misalnya, <code class="token tag">&lt;div&gt;</code>) atau menggunakan <code class="token tag">&lt;React.Fragment&gt;</code> (atau sintaks singkatnya <code class="token tag">&lt;&gt;...&lt;/&gt;</code>) yang tidak menambahkan node ekstra ke DOM.
+                            <pre><code class="language-jsx"><span class="token comment">// Benar</span>
+<span class="token keyword">function</span> <span class="token function">MyComponent</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag">&lt;&gt;</span>
+      <span class="token tag">&lt;h1&gt;</span>Judul<span class="token tag">&lt;/h1&gt;</span>
+      <span class="token tag">&lt;p&gt;</span>Paragraf.<span class="token tag">&lt;/p&gt;</span>
+    <span class="token tag">&lt;/&gt;</span>
+  <span class="token punctuation">)</span>;
+<span class="token punctuation">}</span></code></pre>
+                        </li>
+                        <li><strong>Atribut HTML Ditulis dalam camelCase:</strong> Banyak atribut HTML standar berfungsi di JSX, tetapi beberapa yang terdiri dari dua kata atau lebih ditulis dalam format camelCase. Contohnya, atribut <code class="token attr-name">class</code> di HTML menjadi <code class="token attr-name">className</code> di JSX (karena <code class="token keyword">class</code> adalah kata kunci di JavaScript), dan <code class="token attr-name">for</code> (untuk label) menjadi <code class="token attr-name">htmlFor</code>. Atribut seperti <code class="token attr-name">onclick</code> menjadi <code class="token attr-name">onClick</code>.</li>
+                        <li><strong>Menyematkan Ekspresi JavaScript dengan `{}`:</strong> Anda dapat menyematkan ekspresi JavaScript apa pun (variabel, hasil fungsi, operasi matematika, kondisi ternary) di dalam JSX dengan membungkusnya dalam kurung kurawal <code class="token punctuation">{ }</code>.
+                            <pre><code class="language-jsx"><span class="token keyword">const</span> <span class="token variable">linkGambar</span> <span class="token operator">=</span> <span class="token string">"path/ke/gambar.jpg"</span>;
+<span class="token keyword">const</span> <span class="token variable">sudahLogin</span> <span class="token operator">=</span> <span class="token boolean">true</span>;
+<span class="token keyword">const</span> <span class="token variable">elemen</span> <span class="token operator">=</span> <span class="token punctuation">(</span>
+  <span class="token tag">&lt;div&gt;</span>
+    <span class="token tag">&lt;img</span> <span class="token attr-name">src</span><span class="tokenattr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">{</span>linkGambar<span class="token punctuation">}</span></span> <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Deskripsi<span class="token punctuation">"</span></span> <span class="token tag">/&gt;</span>
+    <span class="token tag">&lt;p&gt;</span>{sudahLogin <span class="token operator">?</span> <span class="token string">'Selamat datang kembali!'</span> <span class="token operator">:</span> <span class="token string">'Silakan login.'</span>}<span class="token tag">&lt;/p&gt;</span>
+    <span class="token tag">&lt;p&gt;</span>Hasil: {<span class="token number">2</span> <span class="token operator">+</span> <span class="token number">2</span>}<span class="token tag">&lt;/p&gt;</span>
+  <span class="token tag">&lt;/div&gt;</span>
+<span class="token punctuation">)</span>;</code></pre>
+                        </li>
+                        <li><strong>Tag Harus Ditutup (Self-Closing Tags):</strong> Semua tag JSX harus ditutup. Untuk elemen yang tidak memiliki konten anak (elemen kosong seperti <code class="token tag">&lt;img /&gt;</code>, <code class="token tag">&lt;br /&gt;</code>, <code class="token tag">&lt;input /&gt;</code>), Anda harus menggunakan format self-closing tag dengan menambahkan <code class="token punctuation">/&gt;</code> di akhir.</li>
+                        <li><strong>Komentar di JSX:</strong> Komentar di dalam JSX ditulis sebagai ekspresi JavaScript yang dibungkus kurung kurawal dan blok komentar JavaScript: <code class="token comment">{/* Ini adalah komentar di dalam JSX */}</code>.</li>
+                    </ul>
+                </article>
+            </section>
+            
+            <hr class="my-16 border-gray-300 html.dark:border-gray-700">
 
-          <article class="p-6 bg-slate-800 rounded-xl shadow-md">
-            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
-              Aturan Penting dalam JSX
-            </h3>
-            <ul class="list-disc list-inside space-y-3 pl-2">
-              <li>
-                <strong>Satu Elemen Induk (Root):</strong> Komponen React harus
-                mengembalikan satu elemen induk. Jika Anda memiliki beberapa
-                elemen, bungkus dalam satu `&lt;div&gt;` atau gunakan
-                `&lt;React.Fragment&gt;` (atau sintaks singkatnya
-                `&lt;&gt;...&lt;/&gt;`).
-              </li>
-              <li>
-                <strong>Atribut HTML:</strong> Banyak atribut HTML standar
-                berfungsi di JSX, tetapi beberapa ditulis dalam camelCase
-                (misalnya, `onClick`, `onSubmit`). Atribut `class` ditulis
-                sebagai `className` dan `for` sebagai `htmlFor`.
-              </li>
-              <li>
-                <strong>Ekspresi JavaScript:</strong> Anda dapat menyematkan
-                ekspresi JavaScript apa pun di dalam JSX dengan menggunakan
-                kurung kurawal `{ }`. Misalnya, `{user.name}`, `{2 + 2}`,
-                `{isAdmin ? <AdminPanel /> : <UserPanel />}`.
-              </li>
-              <li>
-                <strong>Self-Closing Tags:</strong> Elemen yang tidak memiliki
-                konten anak (seperti `&lt;img /&gt;`, `&lt;br /&gt;`, `&lt;input
-                /&gt;`) harus ditutup dengan ` /&gt;`.
-              </li>
-              <li>
-                <strong>Komentar:</strong> Komentar di JSX ditulis sebagai `{/*
-                Ini komentar */}`.
-              </li>
-            </ul>
-          </article>
-        </section>
+            <section id="styling" class="mb-16">
+                <h2 class="text-4xl font-bold section-title pl-4 mb-8">🎨 Styling di React</h2>
+                <p class="mb-8 text-lg leading-relaxed">React tidak memaksakan satu cara tertentu untuk menata gaya komponen Anda, memberikan fleksibilitas untuk memilih metode yang paling sesuai dengan proyek dan preferensi tim Anda. Mari kita lihat beberapa pendekatan populer.</p>
 
-        <hr class="my-12 border-slate-700" />
+                <article class="content-card">
+                    <h3 class="text-3xl font-semibold mb-5">1. CSS Biasa (Plain CSS)</h3>
+                    <p class="mb-4 leading-loose">Ini adalah pendekatan paling tradisional. Anda membuat file <code class="token string">.css</code> terpisah (misalnya, <code class="token string">MyComponent.css</code>) dan mengimpornya ke dalam file komponen JavaScript/JSX Anda. Nama kelas CSS kemudian diterapkan menggunakan atribut <code class="token attr-name">className</code> di JSX.</p>
+                    <pre><code class="language-jsx"><span class="token comment">// MyComponent.jsx</span>
+<span class="token keyword">import</span> <span class="token string">'./MyComponent.css'</span>; <span class="token comment">// Impor file CSS</span>
 
-        <section id="styling" class="mb-16 scroll-mt-20">
-          <h2
-            class="text-3xl font-bold text-sky-400 mb-6 border-l-4 border-emerald-500 pl-4"
-          >
-            🎨 Styling di React
-          </h2>
-          <p class="mb-6 text-lg leading-relaxed">
-            Ada berbagai cara untuk menata gaya komponen React Anda. Bagian ini
-            akan membahas beberapa metode populer.
-          </p>
+<span class="token keyword">function</span> <span class="token function">MyComponent</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token tag">&lt;div</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>my-component-style<span class="token punctuation">"</span></span><span class="token tag">&gt;</span>Konten Komponen Saya<span class="token tag">&lt;/div&gt;</span>;
+<span class="token punctuation">}</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> MyComponent;</code></pre>
+                    <pre><code class="language-css"><span class="token comment">/* MyComponent.css */</span>
+<span class="token selector">.my-component-style</span> <span class="token punctuation">{</span>
+  <span class="token property">background-color</span><span class="token punctuation">:</span> <span class="token string">#4ECDC4</span>; <span class="token comment">/* Turquoise Accent */</span>
+  <span class="token property">color</span><span class="token punctuation">:</span> white;
+  <span class="token property">padding</span><span class="token punctuation">:</span> <span class="token string">1rem</span>;
+  <span class="token property">border-radius</span><span class="token punctuation">:</span> <span class="token string">0.5rem</span>;
+  <span class="token property">text-align</span><span class="token punctuation">:</span> center;
+<span class="token punctuation">}</span></code></pre>
+                    <p class="mt-4 leading-loose"><strong>Kelebihan:</strong> Sangat familiar bagi developer yang terbiasa dengan CSS tradisional, mudah dimulai. <br/><strong>Kekurangan:</strong> Secara default, semua style bersifat global. Ini dapat menyebabkan konflik nama kelas jika tidak dikelola dengan hati-hati, terutama pada aplikasi yang besar dan kompleks.</p>
+                </article>
 
-          <article class="mb-8 p-6 bg-slate-800 rounded-xl shadow-md">
-            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
-              1. CSS Biasa (Plain CSS)
-            </h3>
-            <p class="mb-3">
-              Anda dapat membuat file `.css` dan mengimpornya ke komponen Anda.
-              Nama kelas diterapkan menggunakan atribut `className`.
-            </p>
-            <pre><code class="language-jsx">// MyComponent.jsx
-import './MyComponent.css';
+                <article class="content-card">
+                    <h3 class="text-3xl font-semibold mb-5">2. CSS Modules</h3>
+                    <p class="mb-4 leading-loose">CSS Modules adalah file CSS di mana semua nama kelas dan animasi memiliki scope lokal secara default. Ini berarti style yang Anda tulis untuk satu komponen tidak akan secara tidak sengaja memengaruhi komponen lain. Nama file CSS biasanya diakhiri dengan <code class="token string">.module.css</code> (misalnya, <code class="token string">MyButton.module.css</code>).</p>
+                    <pre><code class="language-jsx"><span class="token comment">// MyButton.jsx</span>
+<span class="token keyword">import</span> <span class="token variable">styles</span> <span class="token keyword">from</span> <span class="token string">'./MyButton.module.css'</span>; <span class="token comment">// Impor CSS Module</span>
 
-function MyComponent() {
-  return &lt;div className="my-component-style"&gt;Konten Komponen&lt;/div&gt;;
-}</code></pre>
-            <pre><code class="language-css">/* MyComponent.css */
-.my-component-style {
-  background-color: #2D3748; /* gray-800 versi lain */
-  color: #E2E8F0; /* slate-200 */
-  padding: 1rem;
-  border-radius: 0.5rem;
-}</code></pre>
-            <p class="mt-3">
-              <strong>Kelemahan:</strong> Scope CSS bersifat global, yang dapat
-              menyebabkan konflik nama kelas pada aplikasi besar.
-            </p>
-          </article>
+<span class="token keyword">function</span> <span class="token function">MyButton</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token tag">&lt;button</span> <span class="token attr-name">className</span><span class="tokenattr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">{</span>styles<span class="token punctuation">.</span><span class="token property-access">buttonError</span><span class="token punctuation">}</span></span><span class="token tag">&gt;</span>Tombol Error<span class="token tag">&lt;/button&gt;</span>;
+<span class="token punctuation">}</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> MyButton;</code></pre>
+                    <pre><code class="language-css"><span class="token comment">/* MyButton.module.css */</span>
+<span class="token selector">.buttonError</span> <span class="token punctuation">{</span> <span class="token comment">/* Nama kelas ini akan diubah menjadi unik, misal: MyButton_buttonError__a1b2c */</span>
+  <span class="token property">background-color</span><span class="token punctuation">:</span> <span class="token string">#FF6B6B</span>; <span class="token comment">/* Coral Primary */</span>
+  <span class="token property">color</span><span class="token punctuation">:</span> white;
+  <span class="token property">padding</span><span class="token punctuation">:</span> <span class="token string">0.75rem 1.5rem</span>;
+  <span class="token property">border</span><span class="token punctuation">:</span> none;
+  <span class="token property">border-radius</span><span class="token punctuation">:</span> <span class="token string">0.375rem</span>;
+<span class="token punctuation">}</span></code></pre>
+                    <p class="mt-4 leading-loose"><strong>Kelebihan:</strong> Mencegah konflik nama kelas global karena nama kelas diubah menjadi unik secara otomatis. Menjaga style tetap terenkapsulasi per komponen. <br/><strong>Kekurangan:</strong> Penamaan kelas di JSX menjadi sedikit lebih panjang (<code class="token punctuation">{</span>styles<span class="token punctuation">.</span><span class="token property-access">namaKelas</span><span class="token punctuation">}</code>).</p>
+                </article>
 
-          <article class="mb-8 p-6 bg-slate-800 rounded-xl shadow-md">
-            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
-              2. CSS Modules
-            </h3>
-            <p class="mb-3">
-              CSS Modules adalah file CSS di mana semua nama kelas dan animasi
-              memiliki scope lokal secara default (nama file biasanya
-              `*.module.css`).
-            </p>
-            <pre><code class="language-jsx">// MyComponent.jsx
-import styles from './MyComponent.module.css';
+                <article class="content-card">
+                    <h3 class="text-3xl font-semibold mb-5">3. Inline Styles</h3>
+                    <p class="mb-4 leading-loose">Style dapat diterapkan langsung ke elemen JSX menggunakan atribut <code class="token attr-name">style</code>. Atribut ini menerima objek JavaScript, di mana properti CSS ditulis dalam format camelCase (misalnya, <code class="token property-access">backgroundColor</code> bukan <code class="token property-access">background-color</code>).</p>
+                    <pre><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">HighlightedText</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> text<span class="token punctuation">,</span> isActive <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token variable">dynamicStyle</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">backgroundColor</span><span class="token operator">:</span> isActive <span class="token operator">?</span> <span class="token string">'#4ECDC4'</span> <span class="token operator">:</span> <span class="token string">'#F7F7F7'</span>, <span class="token comment">// Turquoise atau Light Gray</span>
+    <span class="token literal-property property">color</span><span class="token operator">:</span> isActive <span class="token operator">?</span> <span class="token string">'white'</span> <span class="token operator">:</span> <span class="token string">'#4A4A4A'</span>,
+    <span class="token literal-property property">padding</span><span class="token operator">:</span> <span class="token string">'10px'</span>,
+    <span class="token literal-property property">borderRadius</span><span class="token operator">:</span> <span class="token string">'5px'</span>, <span class="token comment">// camelCase untuk border-radius</span>
+    <span class="token literal-property property">fontSize</span><span class="token operator">:</span> <span class="token string">'1.1rem'</span>   <span class="token comment">// camelCase untuk font-size</span>
+  <span class="token punctuation">}</span>;
 
-function MyComponent() {
-  return &lt;div className={styles.myComponentStyle}&gt;Konten dengan CSS Module&lt;/div&gt;;
-}</code></pre>
-            <pre><code class="language-css">/* MyComponent.module.css */
-.myComponentStyle { /* Akan menjadi unik seperti MyComponent_myComponentStyle__XYZ123 */
-  background-color: #4A5568; /* gray-700 versi lain */
-  color: #F7FAFC; /* gray-100 */
-  padding: 1rem;
-  border: 1px solid #718096; /* gray-500 */
-}</code></pre>
-            <p class="mt-3">
-              <strong>Kelebihan:</strong> Mencegah konflik nama kelas global.
-            </p>
-          </article>
+  <span class="token keyword">return</span> <span class="token tag">&lt;p</span> <span class="token attr-name">style</span><span class="tokenattr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">{</span>dynamicStyle<span class="token punctuation">}</span></span><span class="token tag">&gt;</span>{text}<span class="token tag">&lt;/p&gt;</span>;
+<span class="token punctuation">}</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> HighlightedText;</code></pre>
+                    <p class="mt-4 leading-loose"><strong>Kelebihan:</strong> Sangat berguna untuk style yang sangat spesifik atau dinamis yang bergantung pada state atau props komponen. Scope style hanya pada elemen tersebut. <br/><strong>Kekurangan:</strong> Kurang ideal untuk style yang kompleks. Tidak mendukung semua fitur CSS (seperti pseudo-classes seperti <code class="token selector">:hover</code> atau media queries secara langsung tanpa trik tambahan). Bisa membuat JSX kurang terbaca jika terlalu banyak style inline.</p>
+                </article>
 
-          <article class="mb-8 p-6 bg-slate-800 rounded-xl shadow-md">
-            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
-              3. Inline Styles
-            </h3>
-            <p class="mb-3">
-              Style diterapkan langsung ke elemen JSX menggunakan atribut
-              `style`, yang menerima objek JavaScript dengan properti camelCase.
-            </p>
-            <pre><code class="language-jsx">function MyComponent({ isActive }) {
-  const inlineStyle = {
-    backgroundColor: isActive ? '#38A169' : '#4A5568', // emerald-600 atau gray-700
-    color: 'white',
-    padding: '10px 20px',
-    borderRadius: '5px',
-    fontSize: '1rem' 
-  };
-  return &lt;button style={inlineStyle}&gt;Tombol Dinamis&lt;/button&gt;;
-}</code></pre>
-            <p class="mt-3">
-              <strong>Kelebihan:</strong> Berguna untuk style dinamis.
-              <strong>Kekurangan:</strong> Kurang ideal untuk style kompleks,
-              tidak mendukung pseudo-class secara langsung.
-            </p>
-          </article>
+                 <article class="content-card">
+                    <h3 class="text-3xl font-semibold mb-5">4. CSS-in-JS Libraries (Contoh: Styled Components)</h3>
+                    <p class="mb-4 leading-loose">Pustaka CSS-in-JS seperti Styled Components atau Emotion memungkinkan Anda menulis CSS aktual langsung di dalam file JavaScript/JSX Anda, seringkali menggunakan *template literals*. Komponen yang Anda buat sudah memiliki style-nya sendiri secara terenkapsulasi.</p>
+                    <p class="mb-4 leading-loose">Untuk menggunakan Styled Components, Anda perlu menginstalnya terlebih dahulu: <code class="token keyword">npm install styled-components</code> atau <code class="token keyword">yarn add styled-components</code>.</p>
+                    <pre><code class="language-jsx"><span class="token comment">// Button.jsx (menggunakan Styled Components)</span>
+<span class="token keyword">import</span> <span class="token maybe-class-name">styled</span> <span class="token keyword">from</span> <span class="token string">'styled-components'</span>;
 
-          <article class="p-6 bg-slate-800 rounded-xl shadow-md">
-            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
-              4. CSS-in-JS (Contoh: Styled Components)
-            </h3>
-            <p class="mb-3">
-              Pustaka seperti Styled Components memungkinkan Anda menulis CSS
-              aktual di dalam file JavaScript menggunakan template literals.
-            </p>
-            <p class="mb-3">
-              Pertama, instal:
-              <code class="text-emerald-400"
-                >npm install styled-components</code
-              >
-            </p>
-            <pre><code class="language-jsx">// Button.jsx
-import styled from 'styled-components';
-
-const StyledButton = styled.button`
-  background-color: ${props => props.primary ? '#06B6D4' : '#475569'}; /* sky-500 atau slate-600 */
+<span class="token keyword">const</span> <span class="token maybe-class-name">TombolKustom</span> <span class="token operator">=</span> styled<span class="token punctuation">.</span><span class="token method function property-access">button</span><span class="token template-string"><span class="token quasi backtick">`</span><span class="token string">
+  background-color: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token parameter">props</span> <span class="token arrow operator">=&gt;</span> props<span class="token punctuation">.</span><span class="token property-access">primary</span> <span class="token operator">?</span> <span class="token string">'#FF6B6B'</span> <span class="token operator">:</span> <span class="token string">'#4ECDC4'</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">; <span class="token comment">/* Coral atau Turquoise */</span>
   color: white;
   font-size: 1em;
-  padding: 0.5em 1.5em;
+  margin: 1em;
+  padding: 0.75em 1.5em;
   border: none;
   border-radius: 0.375rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 
-  &:hover {
-    background-color: ${props => props.primary ? '#0891B2' : '#334155'}; /* sky-600 atau slate-700 */
+  </span><span class="token quasi ampersand">&amp;</span><span class="token string">:hover {
+    opacity: 0.85;
+    transform: translateY(-2px);
   }
-`;
+</span><span class="token quasi backtick">`</span></span>;
 
-// Penggunaan:
-// &lt;StyledButton primary&gt;Tombol Utama&lt;/StyledButton&gt;
-// &lt;StyledButton&gt;Tombol Sekunder&lt;/StyledButton&gt;
-                    </code></pre>
-            <p class="mt-3">
-              <strong>Kelebihan:</strong> Enkapsulasi style yang kuat, style
-              dinamis berdasarkan props. <strong>Kekurangan:</strong> Menambah
-              dependensi, kurva belajar tambahan.
-            </p>
-          </article>
-        </section>
+<span class="token comment">// Penggunaan di komponen lain:</span>
+<span class="token comment">// import TombolKustom from './Button';</span>
+<span class="token comment">// ...</span>
+<span class="token comment">// &lt;TombolKustom primary&gt;Tombol Utama&lt;/TombolKustom&gt;</span>
+<span class="token comment">// &lt;TombolKustom&gt;Tombol Sekunder&lt;/TombolKustom&gt;</span>
+</code></pre>
+                    <p class="mt-4 leading-loose"><strong>Kelebihan:</strong> Enkapsulasi style yang sangat kuat (style ter-scope ke komponen). Style dinamis berdasarkan props menjadi sangat mudah. Fitur seperti theming sering tersedia. Menghilangkan kebutuhan untuk memetakan antara komponen dan style secara manual. <br/><strong>Kekurangan:</strong> Menambah dependensi pada proyek dan sedikit menambah ukuran bundle aplikasi. Bisa ada sedikit overhead performa (meskipun seringkali dapat diabaikan untuk kebanyakan aplikasi). Membutuhkan kurva belajar tambahan untuk memahami API pustaka tersebut.</p>
+                    <p class="mt-4 leading-loose">Pilihan lain yang sangat populer dan direkomendasikan adalah menggunakan framework CSS utility-first seperti <strong>Tailwind CSS</strong> (yang sedang kita gunakan di panduan ini!). Tailwind memungkinkan Anda membangun desain kustom dengan cepat tanpa meninggalkan HTML Anda.</p>
+                </article>
+            </section>
 
-        <hr class="my-12 border-slate-700" />
+            <hr class="my-16 border-gray-300 html.dark:border-gray-700">
 
-        <section id="interaksi" class="mb-16 scroll-mt-20">
-          <h2
-            class="text-3xl font-bold text-sky-400 mb-6 border-l-4 border-emerald-500 pl-4"
-          >
-            🔗 Interaksi Komponen: State & Props
-          </h2>
-          <p class="mb-6 text-lg leading-relaxed">
-            State dan Props adalah jantung dari aplikasi React yang dinamis,
-            memungkinkan komponen untuk mengelola data dan berkomunikasi.
-          </p>
+            <section id="interaksi" class="mb-16">
+                <h2 class="text-4xl font-bold section-title pl-4 mb-8">🔗 Interaksi Komponen: State & Props</h2>
+                <p class="mb-8 text-lg leading-relaxed">State dan Props adalah dua konsep fundamental di React yang memungkinkan komponen untuk berinteraksi, mengelola data internalnya, dan menerima data dari luar, sehingga membuat antarmuka pengguna menjadi dinamis dan responsif.</p>
 
-          <article class="mb-8 p-6 bg-slate-800 rounded-xl shadow-md">
-            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
-              Props (Properties) 🎁
-            </h3>
-            <p class="mb-3">
-              Props adalah cara komponen menerima data dari komponen induknya.
-              Props bersifat <em>read-only</em> di dalam komponen yang
-              menerimanya; komponen anak tidak boleh memodifikasi props secara
-              langsung.
-            </p>
-            <pre><code class="language-jsx">// Komponen Induk
-function App() {
-  return &lt;SalamPengguna nama="Budi" usia={30} /&gt;;
-}
+                <article class="content-card">
+                    <h3 class="text-3xl font-semibold mb-5">Props (Properties) 🎁</h3>
+                    <p class="mb-4 leading-loose">Props (kependekan dari *properties*) adalah cara komponen menerima data dari komponen induknya (parent component). Bayangkan props sebagai argumen yang Anda teruskan ke sebuah fungsi. Props bersifat <em>read-only</em> di dalam komponen yang menerimanya; artinya, komponen anak tidak boleh memodifikasi props yang diterimanya secara langsung. Jika data perlu diubah, perubahan tersebut harus berasal dari komponen yang memiliki data tersebut (biasanya komponen induk).</p>
+                    <p class="font-semibold mb-2">Contoh Penggunaan Props:</p>
+                    <pre><code class="language-jsx"><span class="token comment">// Komponen Induk (misalnya, App.jsx)</span>
+<span class="token keyword">function</span> <span class="token function">App</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token tag">&lt;UserProfile</span> <span class="token attr-name">nama</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Andi Pratama<span class="token punctuation">"</span></span> <span class="token attr-name">usia</span><span class="tokenattr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">{</span><span class="token number">28</span><span class="token punctuation">}</span></span> <span class="token attr-name">pekerjaan</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Developer<span class="token punctuation">"</span></span> <span class="token attr-name">hobi</span><span class="tokenattr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">{</span><span class="token punctuation">[</span><span class="token string">'Membaca'</span><span class="token punctuation">,</span> <span class="token string">'Koding'</span><span class="token punctuation">]</span><span class="token punctuation">}</span></span> <span class="token tag">/&gt;</span>;
+<span class="token punctuation">}</span>
 
-// Komponen Anak
-function SalamPengguna(props) {
-  // props adalah objek: { nama: "Budi", usia: 30 }
-  return (
-    &lt;div&gt;
-      &lt;p&gt;Halo, {props.nama}! Usia Anda {props.usia} tahun.&lt;/p&gt;
-    &lt;/div&gt;
-  );
-}
+<span class="token comment">// Komponen Anak (UserProfile.jsx)</span>
+<span class="token comment">// Menerima props sebagai argumen objek tunggal</span>
+<span class="token keyword">function</span> <span class="token function">UserProfile</span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// props adalah objek: { nama: "Andi Pratama", usia: 28, pekerjaan: "Developer", hobi: ['Membaca', 'Koding'] }</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag">&lt;div</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>profile-card p-4 border rounded-md bg-gray-50<span class="token punctuation">"</span></span><span class="token tag">&gt;</span>
+      <span class="token tag">&lt;h4</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text-xl font-semibold text-gray-800 mb-2<span class="token punctuation">"</span></span><span class="token tag">&gt;</span>Profil Pengguna<span class="token tag">&lt;/h4&gt;</span>
+      <span class="token tag">&lt;p</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text-gray-700<span class="token punctuation">"</span></span><span class="token tag">&gt;</span><span class="token constant">Nama</span>: {props<span class="token punctuation">.</span><span class="token property-access">nama</span>}<span class="token tag">&lt;/p&gt;</span>
+      <span class="token tag">&lt;p</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text-gray-700<span class="token punctuation">"</span></span><span class="token tag">&gt;</span><span class="token constant">Usia</span>: {props<span class="token punctuation">.</span><span class="token property-access">usia</span>} tahun<span class="token tag">&lt;/p&gt;</span>
+      <span class="token tag">&lt;p</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text-gray-700<span class="token punctuation">"</span></span><span class="token tag">&gt;</span><span class="token constant">Pekerjaan</span>: {props<span class="token punctuation">.</span><span class="token property-access">pekerjaan</span>}<span class="token tag">&lt;/p&gt;</span>
+      <span class="token tag">&lt;p</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text-gray-700<span class="token punctuation">"</span></span><span class="token tag">&gt;</span><span class="token constant">Hobi</span>: {props<span class="token punctuation">.</span><span class="token property-access">hobi</span><span class="token punctuation">.</span><span class="token method function property-access">join</span><span class="token punctuation">(</span><span class="token string">', '</span><span class="token punctuation">)</span>}<span class="token tag">&lt;/p&gt;</span>
+    <span class="token tag">&lt;/div&gt;</span>
+  <span class="token punctuation">)</span>;
+<span class="token punctuation">}</span>
 
-// Bisa juga dengan destructuring props:
-// function SalamPengguna({ nama, usia }) { ... }</code></pre>
-          </article>
+<span class="token comment">// Alternatif yang lebih umum: Destructuring props langsung di parameter fungsi</span>
+<span class="token comment">// function UserProfile({ nama, usia, pekerjaan, hobi }) {</span>
+<span class="token comment">//   return ( /* ... JSX yang sama menggunakan variabel nama, usia, dst. secara langsung ... */ );</span>
+<span class="token comment">// }</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token maybe-class-name">App</span>; <span class="token comment">// (Contoh export, sesuaikan dengan struktur file Anda)</span>
+</code></pre>
+                </article>
 
-          <article class="mb-8 p-6 bg-slate-800 rounded-xl shadow-md">
-            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
-              State ❤️
-            </h3>
-            <p class="mb-3">
-              State adalah data internal yang dimiliki dan dikelola oleh sebuah
-              komponen. Ketika state berubah, React akan me-render ulang
-              komponen tersebut untuk mencerminkan perubahan UI.
-            </p>
-            <p class="mb-3">
-              Di functional components, state dikelola menggunakan Hook
-              `useState`.
-            </p>
-            <pre><code class="language-jsx">import React, { useState } from 'react';
+                <article class="content-card">
+                    <h3 class="text-3xl font-semibold mb-5">State ❤️</h3>
+                    <p class="mb-4 leading-loose">State adalah data yang dimiliki dan dikelola *secara internal* oleh sebuah komponen. Berbeda dengan props, state bersifat **mutable** (bisa diubah) oleh komponen itu sendiri, biasanya sebagai respons terhadap interaksi pengguna (seperti klik tombol atau input form) atau kejadian lain dalam aplikasi (seperti data yang diterima dari API).</p>
+                    <p class="mb-4 leading-loose">Ketika state sebuah komponen berubah, React akan secara otomatis **me-render ulang** (re-render) komponen tersebut (dan anak-anaknya jika perlu) untuk mencerminkan perubahan tersebut di antarmuka pengguna.</p>
+                    <p class="font-semibold mb-2">Menggunakan Hook `useState`:</p>
+                    <p class="mb-4 leading-loose">Di *functional components* (cara modern dan paling umum untuk menulis komponen React), state dikelola menggunakan *Hook* <code class="token function">useState</code>. Hook <code class="token function">useState</code> adalah fungsi yang:
+                        <ol class="list-decimal list-inside ml-4 mt-2 leading-loose">
+                            <li>Menerima satu argumen: nilai awal (<em>initial state</em>) dari state tersebut.</li>
+                            <li>Mengembalikan sebuah array dengan dua elemen:
+                                <ul class="list-disc list-inside ml-4 mt-1">
+                                    <li>Elemen pertama: Nilai state saat ini.</li>
+                                    <li>Elemen kedua: Fungsi untuk memperbarui nilai state tersebut. (Konvensi penamaannya adalah <code class="token function">setNamaState</code>).</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </p>
+                    <pre><code class="language-jsx"><span class="token keyword">import</span> <span class="token maybe-class-name">React</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> useState <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span>; <span class="token comment">// Jangan lupa import useState</span>
 
-function Counter() {
-  // Deklarasi state 'hitungan' dengan nilai awal 0
-  // hitungan: nilai state saat ini
-  // setHitungan: fungsi untuk memperbarui state 'hitungan'
-  const [hitungan, setHitungan] = useState(0);
+<span class="token keyword">function</span> <span class="token function">Counter</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// Deklarasi state 'hitungan' dengan nilai awal 0</span>
+  <span class="token comment">// 'hitungan' adalah nilai state saat ini</span>
+  <span class="token comment">// 'setHitungan' adalah fungsi untuk memperbarui 'hitungan'</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span>hitungan<span class="token punctuation">,</span> setHitungan<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>;
 
-  return (
-    &lt;div&gt;
-      &lt;p className="text-lg mb-2"&gt;Nilai hitungan: {hitungan}&lt;/p&gt;
-      &lt;button 
-        onClick={() => setHitungan(hitungan + 1)}
-        className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-2 px-4 rounded mr-2"
-      &gt;
-        Tambah
-      &lt;/button&gt;
-      &lt;button 
-        onClick={() => setHitungan(prevHitungan => prevHitungan - 1)} // Cara aman update berdasarkan state sebelumnya
-        className="bg-sky-500 hover:bg-sky-600 text-white font-semibold py-2 px-4 rounded"
-      &gt;
-        Kurang
-      &lt;/button&gt;
-    &lt;/div&gt;
-  );
-}</code></pre>
-          </article>
-          <article class="p-6 bg-slate-800 rounded-xl shadow-md">
-            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
-              Props vs. State 🤔
-            </h3>
-            <div class="overflow-x-auto">
-              <table
-                class="min-w-full bg-slate-700 border border-slate-600 rounded-md"
-              >
-                <thead class="bg-slate-600">
-                  <tr>
-                    <th class="text-left py-3 px-4 font-semibold">Fitur</th>
-                    <th class="text-left py-3 px-4 font-semibold">Props</th>
-                    <th class="text-left py-3 px-4 font-semibold">State</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-600">
-                  <tr>
-                    <td class="py-3 px-4">Sumber Data</td>
-                    <td class="py-3 px-4">Eksternal (dari komponen induk)</td>
-                    <td class="py-3 px-4">
-                      Internal (dikelola komponen sendiri)
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="py-3 px-4">Sifat</td>
-                    <td class="py-3 px-4">
-                      Read-only (tidak bisa diubah anak)
-                    </td>
-                    <td class="py-3 px-4">
-                      Mutable (bisa diubah oleh komponen)
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="py-3 px-4">Tujuan</td>
-                    <td class="py-3 px-4">
-                      Meneruskan data & konfigurasi ke anak
-                    </td>
-                    <td class="py-3 px-4">Mengelola data dinamis internal</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <p class="mt-4">
-              <strong>Lifting State Up:</strong> Jika beberapa komponen perlu
-              berbagi state, state tersebut "diangkat" ke komponen induk
-              terdekat dan diteruskan ke anak melalui props.
-            </p>
-          </article>
-        </section>
+  <span class="token keyword">const</span> <span class="token function-variable function">tambahHitungan</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token function">setHitungan</span><span class="token punctuation">(</span><span class="token parameter">prevHitungan</span> <span class="token arrow operator">=&gt;</span> prevHitungan <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span>; <span class="token comment">// Cara aman update berdasarkan state sebelumnya</span>
+  <span class="token punctuation">}</span>;
 
-        <hr class="my-12 border-slate-700" />
+  <span class="token keyword">const</span> <span class="token function-variable function">resetHitungan</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token function">setHitungan</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>;
+  <span class="token punctuation">}</span>;
 
-        <section id="form-list" class="mb-16 scroll-mt-20">
-          <h2
-            class="text-3xl font-bold text-sky-400 mb-6 border-l-4 border-emerald-500 pl-4"
-          >
-            📝 Form & List
-          </h2>
-          <p class="mb-6 text-lg leading-relaxed">
-            Mengelola input pengguna melalui form dan menampilkan daftar data
-            adalah tugas umum dalam aplikasi web.
-          </p>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag">&lt;div</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-4 border rounded-md bg-gray-50<span class="token punctuation">"</span></span><span class="token tag">&gt;</span>
+      <span class="token tag">&lt;p</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text-xl mb-3 text-gray-700<span class="token punctuation">"</span></span><span class="token tag">&gt;</span>Anda telah mengklik tombol sebanyak: <span class="token tag">&lt;span</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>font-bold<span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="tokenattr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span> <span class="token literal-property property">color</span><span class="token operator">:</span> <span class="token string">'#FF6B6B'</span> <span class="token punctuation">}</span><span class="token punctuation">}</span></span><span class="token tag">&gt;</span>{hitungan}<span class="token tag">&lt;/span&gt;</span> kali<span class="token tag">&lt;/p&gt;</span>
+      <span class="token tag">&lt;button</span> 
+        <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded mr-2 transition-colors<span class="token punctuation">"</span></span>
+        <span class="token attr-name">onClick</span><span class="tokenattr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">{</span>tambahHitungan<span class="token punctuation">}</span></span>
+      <span class="token tag">&gt;</span>
+        Tambah (+)
+      <span class="token tag">&lt;/button&gt;</span>
+      <span class="token tag">&lt;button</span> 
+        <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded transition-colors<span class="token punctuation">"</span></span>
+        <span class="token attr-name">onClick</span><span class="tokenattr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">{</span>resetHitungan<span class="token punctuation">}</span></span>
+      <span class="token tag">&gt;</span>
+        Reset
+      <span class="token tag">&lt;/button&gt;</span>
+    <span class="token tag">&lt;/div&gt;</span>
+  <span class="token punctuation">)</span>;
+<span class="token punctuation">}</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token maybe-class-name">Counter</span>;</code></pre>
+                </article>
 
-          <article class="mb-8 p-6 bg-slate-800 rounded-xl shadow-md">
-            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
-              Formulir (Controlled Components)
-            </h3>
-            <p class="mb-3">
-              Dalam React, pendekatan umum untuk form adalah menggunakan
-              "Controlled Components", di mana data form dikelola oleh state
-              React.
-            </p>
-            <pre><code class="language-jsx">import React, { useState } from 'react';
+                <article class="content-card">
+                    <h3 class="text-3xl font-semibold mb-5">Props vs. State - Kapan Menggunakan yang Mana? 🤔</h3>
+                    <p class="mb-4 leading-loose">Memahami perbedaan dan kapan menggunakan props atau state adalah kunci untuk membangun aplikasi React yang terstruktur dengan baik.</p>
+                    <div class="overflow-x-auto shadow-md rounded-lg">
+                        <table class="min-w-full bg-white border border-gray-200">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="text-left py-3.5 px-5 font-semibold text-gray-600 uppercase tracking-wider">Fitur</th>
+                                    <th class="text-left py-3.5 px-5 font-semibold text-gray-600 uppercase tracking-wider">Props</th>
+                                    <th class="text-left py-3.5 px-5 font-semibold text-gray-600 uppercase tracking-wider">State</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 text-gray-700">
+                                <tr>
+                                    <td class="py-3.5 px-5"><strong>Sumber Data</strong></td>
+                                    <td class="py-3.5 px-5">Diterima dari komponen induk (data eksternal bagi komponen penerima).</td>
+                                    <td class="py-3.5 px-5">Dikelola di dalam komponen itu sendiri (data internal).</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3.5 px-5"><strong>Kemampuan Perubahan</strong></td>
+                                    <td class="py-3.5 px-5"><em>Read-only</em> (tidak bisa diubah secara langsung oleh komponen anak yang menerimanya).</td>
+                                    <td class="py-3.5 px-5">Mutable (bisa diubah oleh komponen itu sendiri menggunakan fungsi <code class="token function">set</code>-nya, misal, <code class="token function">setHitungan</code>).</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3.5 px-5"><strong>Tujuan Utama</strong></td>
+                                    <td class="py-3.5 px-5">Untuk mengonfigurasi komponen dan meneruskan data atau fungsi dari komponen induk ke komponen anak.</td>
+                                    <td class="py-3.5 px-5">Untuk mengelola data yang berubah seiring waktu akibat interaksi pengguna, respons API, atau logika internal komponen, yang menyebabkan UI diperbarui.</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3.5 px-5"><strong>Siapa yang "Memiliki"?</strong></td>
+                                    <td class="py-3.5 px-5">Komponen anak "menerima" dari komponen induk. Komponen induk "memiliki" data yang diteruskan sebagai props.</td>
+                                    <td class="py-3.5 px-5">Komponen "memiliki" dan "mengontrol" datanya sendiri.</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3.5 px-5"><strong>Contoh Penggunaan</strong></td>
+                                    <td class="py-3.5 px-5"><code class="token tag">&lt;UserProfile</span> <span class="token attr-name">nama</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Budi<span class="token punctuation">"</span></span> <span class="token tag">/&gt;</code></td>
+                                    <td class="py-3.5 px-5"><code class="token keyword">const</span> <span class="token punctuation">[</span>isOpen<span class="token punctuation">,</span> setIsOpen<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span>;</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="mt-6 leading-loose"><strong>"Lifting State Up" (Mengangkat State ke Atas):</strong> Jika beberapa komponen anak perlu berbagi atau memodifikasi state yang sama, praktik terbaiknya adalah "mengangkat" state tersebut ke komponen induk terdekat mereka. Komponen induk kemudian akan meneruskan state tersebut (sebagai props) dan fungsi untuk mengubah state tersebut (juga sebagai props) ke komponen-komponen anak yang membutuhkannya.</p>
+                </article>
+            </section>
 
-function MyForm() {
-  const [inputValue, setInputValue] = useState('');
+            <hr class="my-16 border-gray-300 html.dark:border-gray-700">
 
-  const handleChange = (event) => {
-    setInputValue(event.target.value);
-  };
+            <section id="form-list" class="mb-16">
+                <h2 class="text-4xl font-bold section-title pl-4 mb-8">📝 Form & List: Mengelola Input dan Menampilkan Data</h2>
+                <p class="mb-8 text-lg leading-relaxed">Mengelola input pengguna melalui formulir dan menampilkan daftar data secara dinamis adalah dua tugas yang sangat umum dalam pengembangan aplikasi web. React menyediakan cara yang elegan dan efektif untuk menangani keduanya.</p>
+                
+                <article class="content-card">
+                    <h3 class="text-3xl font-semibold mb-5">Mengelola Formulir dengan "Controlled Components"</h3>
+                    <p class="mb-4 leading-loose">Di React, pendekatan yang paling umum dan direkomendasikan untuk menangani formulir adalah dengan menggunakan konsep **"Controlled Components"**. Dalam *controlled component*, data formulir (nilai dari setiap input field) dikelola oleh state React, bukan oleh DOM itu sendiri.</p>
+                    <ul class="list-disc list-inside space-y-2 mb-4 leading-loose pl-2">
+                        <li>Setiap elemen input (seperti <code class="token tag">&lt;input&gt;</code>, <code class="token tag">&lt;textarea&gt;</code>, <code class="token tag">&lt;select&gt;</code>) memiliki atribut <code class="token attr-name">value</code> yang diikat (bound) ke sebuah variabel state di komponen React.</li>
+                        <li>Setiap kali nilai input berubah (misalnya, pengguna mengetik sesuatu), fungsi *event handler* (biasanya yang terikat pada atribut <code class="token attr-name">onChange</code>) akan dipicu.</li>
+                        <li>Fungsi <code class="token attr-name">onChange</code> ini akan memperbarui state React dengan nilai baru dari input.</li>
+                        <li>Karena state berubah, komponen akan di-render ulang, dan elemen input akan menampilkan nilai baru dari state tersebut. Ini memastikan bahwa state React selalu menjadi "sumber kebenaran" (source of truth) untuk nilai form.</li>
+                    </ul>
+                    <p class="font-semibold mb-2">Contoh Kode Formulir Sederhana (Controlled Component):</p>
+                    <pre><code class="language-jsx"><span class="token keyword">import</span> <span class="token maybe-class-name">React</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> useState <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span>;
 
-  const handleSubmit = (event) => {
-    event.preventDefault(); // Mencegah reload halaman
-    alert('Nilai yang disubmit: ' + inputValue);
-    setInputValue(''); // Reset input
-  };
+<span class="token keyword">function</span> <span class="token function">NameForm</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span>nama<span class="token punctuation">,</span> setNama<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span>; <span class="token comment">// State untuk nilai input</span>
 
-  return (
-    &lt;form onSubmit={handleSubmit} className="space-y-4"&gt;
-      &lt;label htmlFor="myInput" className="block text-lg font-medium"&gt;Masukkan Teks:&lt;/label&gt;
-      &lt;input
-        type="text"
-        id="myInput"
-        value={inputValue} // Nilai input dikontrol oleh state
-        onChange={handleChange} // Fungsi untuk update state
-        className="block w-full p-3 bg-slate-700 border border-slate-600 rounded-md focus:ring-sky-500 focus:border-sky-500"
-      /&gt;
-      &lt;button type="submit" className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-2 px-6 rounded-md"&gt;
+  <span class="token keyword">const</span> <span class="token function-variable function">handleChange</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token function">setNama</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span><span class="token property-access">target</span><span class="token punctuation">.</span><span class="token property-access">value</span><span class="token punctuation">)</span>; <span class="token comment">// Update state saat input berubah</span>
+  <span class="token punctuation">}</span>;
+
+  <span class="token keyword">const</span> <span class="token function-variable function">handleSubmit</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token punctuation">{</span>
+    event<span class="token punctuation">.</span><span class="token method function property-access">preventDefault</span><span class="token punctuation">(</span><span class="token punctuation">)</span>; <span class="token comment">// Mencegah reload halaman standar saat form disubmit</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>nama<span class="token punctuation">.</span><span class="token method function property-access">trim</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">===</span> <span class="token string">''</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        alert<span class="token punctuation">(</span><span class="token string">'Nama tidak boleh kosong!'</span><span class="token punctuation">)</span>;
+        <span class="token keyword">return</span>;
+    <span class="token punctuation">}</span>
+    alert<span class="token punctuation">(</span><span class="token string">'Nama yang dikirim: '</span> <span class="token operator">+</span> nama<span class="token punctuation">)</span>;
+    <span class="token function">setNama</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span>; <span class="token comment">// Kosongkan input setelah submit</span>
+  <span class="token punctuation">}</span>;
+
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag">&lt;form</span> <span class="token attr-name">onSubmit</span><span class="tokenattr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">{</span>handleSubmit<span class="token punctuation">}</span></span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>space-y-4 p-4 border border-gray-300 rounded-lg bg-gray-50<span class="token punctuation">"</span></span><span class="token tag">&gt;</span>
+      <span class="token tag">&lt;div&gt;</span>
+        <span class="token tag">&lt;label</span> <span class="token attr-name">htmlFor</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>nameInput<span class="token punctuation">"</span></span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>block text-sm font-medium text-gray-700 mb-1<span class="token punctuation">"</span></span><span class="token tag">&gt;</span>
+          Masukkan Nama Anda:
+        <span class="token tag">&lt;/label&gt;</span>
+        <span class="token tag">&lt;input</span>
+          <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span>
+          <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>nameInput<span class="token punctuation">"</span></span>
+          <span class="token attr-name">value</span><span class="tokenattr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">{</span>nama<span class="token punctuation">}</span></span> <span class="token comment">// Nilai input dikontrol oleh state</span>
+          <span class="token attr-name">onChange</span><span class="tokenattr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">{</span>handleChange<span class="token punctuation">}</span></span> <span class="token comment">// Fungsi untuk update state saat ada perubahan</span>
+          <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-coral-500 focus:border-coral-500 sm:text-sm<span class="token punctuation">"</span></span>
+          <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Contoh: Budi Doremi<span class="token punctuation">"</span></span>
+        <span class="token tag">/&gt;</span>
+      <span class="token tag">&lt;/div&gt;</span>
+      <span class="token tag">&lt;button</span> 
+        <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>submit<span class="token punctuation">"</span></span>
+        <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>bg-coral-500 hover:bg-coral-600 text-white font-bold py-2 px-4 rounded transition-colors<span class="token punctuation">"</span></span>
+      <span class="token tag">&gt;</span>
         Kirim
-      &lt;/button&gt;
-    &lt;/form&gt;
-  );
-}</code></pre>
-          </article>
+      <span class="token tag">&lt;/button&gt;</span>
+    <span class="token tag">&lt;/form&gt;</span>
+  <span class="token punctuation">)</span>;
+<span class="token punctuation">}</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token maybe-class-name">NameForm</span>;</code></pre>
+                </article>
 
-          <article class="p-6 bg-slate-800 rounded-xl shadow-md">
-            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
-              Menampilkan Daftar (Lists)
-            </h3>
-            <p class="mb-3">
-              Untuk me-render daftar elemen, gunakan metode `.map()` pada array.
-              Penting untuk memberikan atribut `key` yang unik dan stabil untuk
-              setiap item list agar React dapat mengelola pembaruan secara
-              efisien.
-            </p>
-            <pre><code class="language-jsx">function ItemList({ items }) {
-  // items adalah array objek, contoh: [{ id: 'a1', name: 'Apel' }, { id: 'b2', name: 'Jeruk' }]
-  if (!items || items.length === 0) {
-    return &lt;p&gt;Tidak ada item untuk ditampilkan.&lt;/p&gt;;
-  }
-  return (
-    &lt;ul className="list-disc list-inside space-y-2 p-4 bg-slate-700 rounded-md"&gt;
-      {items.map((item) => (
-        &lt;li key={item.id} className="text-slate-300"&gt; 
-          {item.name} 
-        &lt;/li&gt;
-        // Key 'item.id' harus unik dan stabil
-      ))}
-    &lt;/ul&gt;
-  );
-}
+                <article class="content-card">
+                    <h3 class="text-3xl font-semibold mb-5">Menampilkan Daftar (Lists) Data</h3>
+                    <p class="mb-4 leading-loose">Untuk me-render daftar (list) elemen di React, Anda biasanya akan memiliki sebuah array data dan menggunakan metode <code class="token method function property-access">.map()</code> dari array JavaScript. Metode <code class="token method function property-access">.map()</code> akan mengiterasi setiap item dalam array dan memungkinkan Anda mengembalikan elemen JSX untuk setiap item tersebut.</p>
+                    <p class="font-semibold mb-2">PENTING: Atribut <code class="token attr-name">key</code>!</p>
+                    <p class="mb-4 leading-loose">Setiap kali Anda me-render daftar elemen menggunakan <code class="token method function property-access">.map()</code>, React memerlukan atribut <code class="token attr-name">key</code> yang **unik dan stabil** untuk setiap elemen dalam daftar tersebut. <code class="token attr-name">key</code> membantu React mengidentifikasi item mana yang telah berubah, ditambahkan, atau dihapus. Ini sangat penting untuk performa dan untuk menjaga state internal dari item list (jika ada) tetap konsisten.</p>
+                    <p class="mb-4 leading-loose">Biasanya, ID unik dari data Anda (misalnya, ID dari database atau UUID yang digenerate) digunakan sebagai <code class="token attr-name">key</code>. **Hindari menggunakan index array sebagai <code class="token attr-name">key</code> jika urutan item dalam daftar dapat berubah**, karena ini dapat menyebabkan masalah performa dan state yang tidak konsisten.</p>
+                    <p class="font-semibold mb-2">Contoh Kode Menampilkan Daftar:</p>
+                    <pre><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">ShoppingList</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> items <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// items adalah array objek, misal:</span>
+  <span class="token comment">// const daftarBelanja = [</span>
+  <span class="token comment">//   { id: 'item-001', name: 'Apel Merah', quantity: 5 },</span>
+  <span class="token comment">//   { id: 'item-002', name: 'Susu UHT Full Cream', quantity: 2 },</span>
+  <span class="token comment">//   { id: 'item-003', name: 'Roti Tawar Gandum', quantity: 1 }</span>
+  <span class="token comment">// ];</span>
 
-// Contoh penggunaan:
-// const daftarBuah = [{ id: 'f1', name: 'Mangga' }, { id: 'f2', name: 'Pisang' }];
-// &lt;ItemList items={daftarBuah} /&gt;</code></pre>
-            <p class="mt-3">
-              <strong>Hindari menggunakan index array sebagai `key`</strong>
-              jika urutan item dapat berubah, karena dapat menyebabkan masalah
-              performa dan state yang tidak konsisten.
-            </p>
-          </article>
-        </section>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>items <span class="token operator">||</span> items<span class="token punctuation">.</span><span class="token property-access">length</span> <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token tag">&lt;p</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text-gray-500 italic<span class="token punctuation">"</span></span><span class="token tag">&gt;</span>Tidak ada barang di daftar belanja Anda saat ini.<span class="token tag">&lt;/p&gt;</span>;
+  <span class="token punctuation">}</span>
 
-        <hr class="my-12 border-slate-700" />
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag">&lt;div</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-4 border rounded-md bg-gray-50<span class="token punctuation">"</span></span><span class="token tag">&gt;</span>
+      <span class="token tag">&lt;h4</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text-xl font-semibold mb-3 text-gray-700<span class="token punctuation">"</span></span><span class="token tag">&gt;</span>Daftar Belanja Anda:<span class="token tag">&lt;/h4&gt;</span>
+      <span class="token tag">&lt;ul</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>list-disc list-inside space-y-2<span class="token punctuation">"</span></span><span class="token tag">&gt;</span>
+        <span class="token punctuation">{</span>items<span class="token punctuation">.</span><span class="token method function property-access">map</span><span class="token punctuation">(</span><span class="token parameter">item</span> <span class="token arrow operator">=&gt;</span> <span class="token punctuation">(</span>
+          <span class="token comment">// 'item.id' digunakan sebagai key yang unik dan stabil</span>
+          <span class="token tag">&lt;li</span> <span class="token attr-name">key</span><span class="tokenattr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">{</span>item<span class="token punctuation">.</span><span class="token property-access">id</span><span class="token punctuation">}</span></span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>py-1 text-gray-800<span class="token punctuation">"</span></span><span class="token tag">&gt;</span>
+            {item<span class="token punctuation">.</span><span class="token property-access">name</span>} <span class="token tag">&lt;span</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text-sm text-gray-600<span class="token punctuation">"</span></span><span class="token tag">&gt;</span>(Jumlah: {item<span class="token punctuation">.</span><span class="token property-access">quantity</span>})<span class="token tag">&lt;/span&gt;</span>
+          <span class="token tag">&lt;/li&gt;</span>
+        <span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">}</span>
+      <span class="token tag">&lt;/ul&gt;</span>
+    <span class="token tag">&lt;/div&gt;</span>
+  <span class="token punctuation">)</span>;
+<span class="token punctuation">}</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token maybe-class-name">ShoppingList</span>;</code></pre>
+                </article>
+            </section>
 
-        <section id="studi-kasus" class="mb-16 scroll-mt-20">
-          <h2
-            class="text-3xl font-bold text-sky-400 mb-6 border-l-4 border-emerald-500 pl-4"
-          >
-            🔨 Studi Kasus: Aplikasi To-Do List
-          </h2>
-          <p class="mb-6 text-lg leading-relaxed">
-            Menerapkan konsep yang telah dipelajari untuk membangun aplikasi
-            To-Do List sederhana.
-          </p>
+            <hr class="my-16 border-gray-300 html.dark:border-gray-700">
 
-          <article class="mb-8 p-6 bg-slate-800 rounded-xl shadow-md">
-            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
-              Fitur Utama
-            </h3>
-            <ul class="list-disc list-inside space-y-2 pl-2">
-              <li>Menambah task baru.</li>
-              <li>Menampilkan daftar task.</li>
-              <li>Menandai task sebagai selesai/belum selesai (toggle).</li>
-              <li>Menghapus task.</li>
-            </ul>
-          </article>
+            <section id="studi-kasus" class="mb-16">
+                <h2 class="text-4xl font-bold section-title pl-4 mb-8">🔨 Studi Kasus: Aplikasi To-Do List</h2>
+                <p class="mb-8 text-lg leading-relaxed">Saatnya menerapkan semua konsep yang telah kita pelajari untuk membangun sebuah aplikasi interaktif sederhana: Aplikasi To-Do List. Ini adalah latihan yang sangat baik untuk mempraktikkan penggunaan komponen, state, props, formulir, dan rendering daftar.</p>
 
-          <article class="mb-8 p-6 bg-slate-800 rounded-xl shadow-md">
-            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
-              Struktur Komponen (Saran)
-            </h3>
-            <ul class="list-disc list-inside space-y-2 pl-2">
-              <li>
-                `App.jsx`: Komponen root, mengelola state utama (daftar tasks)
-                dan logika utama.
-              </li>
-              <li>`TodoForm.jsx`: Form untuk input task baru.</li>
-              <li>`TodoList.jsx`: Menampilkan daftar task.</li>
-              <li>`TodoItem.jsx`: Menampilkan satu item task individual.</li>
-            </ul>
-            <p class="mt-3">Secara konseptual, struktur komponennya:</p>
-            <pre><code class="language-text">App
+                <article class="content-card">
+                    <h3 class="text-3xl font-semibold mb-5">Fitur Utama Aplikasi To-Do List</h3>
+                    <p class="mb-4 leading-loose">Aplikasi To-Do List yang akan kita rancang akan memiliki fungsionalitas dasar sebagai berikut:</p>
+                    <ul class="list-disc list-inside space-y-3 pl-2 leading-loose">
+                        <li><strong>Menambah Task Baru:</strong> Pengguna dapat mengetikkan deskripsi task baru di sebuah input field dan menambahkannya ke dalam daftar task.</li>
+                        <li><strong>Menampilkan Daftar Tasks:</strong> Semua task yang telah ditambahkan akan ditampilkan dalam sebuah daftar yang terstruktur.</li>
+                        <li><strong>Menandai Task Selesai/Belum Selesai (Toggle):</strong> Setiap task dalam daftar dapat ditandai sebagai sudah selesai (misalnya dengan mencoret teksnya atau mengubah warnanya) atau belum selesai. Pengguna dapat mengubah status ini.</li>
+                        <li><strong>Menghapus Task:</strong> Pengguna dapat menghapus task tertentu dari daftar.</li>
+                    </ul>
+                </article>
+
+                <article class="content-card">
+                    <h3 class="text-3xl font-semibold mb-5">Struktur Komponen yang Direncanakan (Saran)</h3>
+                    <p class="mb-4 leading-loose">Untuk membangun aplikasi To-Do List ini dengan baik, kita bisa memecahnya menjadi beberapa komponen yang lebih kecil dan terkelola:</p>
+                    <ul class="list-disc list-inside space-y-2 pl-2 leading-loose">
+                        <li><code class="token class-name">App.jsx</code>: Ini akan menjadi komponen induk (root component) yang mengatur keseluruhan aplikasi. Komponen ini biasanya akan bertanggung jawab untuk menampung state utama (yaitu, array dari semua tasks) dan logika utama untuk menambah, menghapus, serta mengubah status (selesai/belum) dari sebuah task.</li>
+                        <li><code class="token class-name">TodoForm.jsx</code>: Komponen ini akan berisi formulir (input field dan tombol tambah) untuk pengguna memasukkan task baru. Komponen ini akan menerima fungsi dari <code class="token class-name">App</code> (melalui props) untuk benar-benar menambahkan task baru ke state utama.</li>
+                        <li><code class="token class-name">TodoList.jsx</code>: Komponen ini bertanggung jawab untuk menampilkan daftar semua tasks. Ia akan menerima daftar tasks (dari state di <code class="token class-name">App</code>) dan fungsi-fungsi terkait (seperti fungsi untuk menghapus atau mengubah status task) melalui props. Kemudian, komponen ini akan me-render setiap task menggunakan komponen <code class="token class-name">TodoItem</code>.</li>
+                        <li><code class="token class-name">TodoItem.jsx</code>: Komponen ini merepresentasikan satu task individual dalam daftar. Ia akan menerima detail dari satu task (seperti teks dan status selesai) dan fungsi-fungsi terkait (untuk menghapus atau mengubah status) dari <code class="token class-name">TodoList</code> (atau bisa juga langsung dari <code class="token class-name">App</code>) melalui props. Komponen ini juga akan berisi UI untuk menampilkan teks task, checkbox (atau tombol) untuk menandai selesai, dan tombol untuk menghapus.</li>
+                    </ul>
+                    <p class="mt-4 font-semibold">Diagram Struktur Komponen (Konseptual):</p>
+                    <pre><code class="language-text">App
 ├── TodoForm
 └── TodoList
-    └── TodoItem (dirender berulang)</code></pre>
-          </article>
+    └── TodoItem (dirender berulang kali untuk setiap task)</code></pre>
+                </article>
+                
+                <article class="content-card">
+                    <h3 class="text-3xl font-semibold mb-5">Struktur Data Task (Contoh)</h3>
+                    <p class="mb-4 leading-loose">Setiap task dalam daftar To-Do List kita bisa direpresentasikan sebagai sebuah objek JavaScript. Objek ini setidaknya harus memiliki properti berikut:</p>
+                    <ul class="list-disc list-inside space-y-2 pl-2 leading-loose">
+                        <li><code class="token variable">id</code>: Sebuah identifier unik (bisa berupa string atau number) untuk setiap task. Ini sangat penting untuk digunakan sebagai atribut <code class="token attr-name">key</code> saat me-render daftar task, dan juga untuk mengidentifikasi task mana yang akan dihapus atau diubah statusnya.</li>
+                        <li><code class="token variable">text</code>: Sebuah string yang berisi deskripsi dari task yang akan ditampilkan kepada pengguna.</li>
+                        <li><code class="token variable">isCompleted</code>: Sebuah boolean yang menandakan apakah task tersebut sudah selesai (<code class="token boolean">true</code>) atau belum selesai (<code class="token boolean">false</code>). Nilai defaultnya biasanya <code class="token boolean">false</code> saat task baru dibuat.</li>
+                    </ul>
+                    <p class="mt-4 font-semibold">Contoh state daftar tasks di komponen <code class="token class-name">App.jsx</code> bisa terlihat seperti ini:</p>
+                    <pre><code class="language-javascript"><span class="token comment">// Di dalam komponen App.jsx</span>
+<span class="token keyword">const</span> <span class="token punctuation">[</span>tasks<span class="token punctuation">,</span> setTasks<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+  <span class="token punctuation">{</span> <span class="token literal-property property">id</span><span class="token operator">:</span> <span class="token string">'todo-1'</span><span class="token punctuation">,</span> <span class="token literal-property property">text</span><span class="token operator">:</span> <span class="token string">'Belajar React Hooks lebih dalam'</span><span class="token punctuation">,</span> <span class="token literal-property property">isCompleted</span><span class="token operator">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> <span class="token literal-property property">id</span><span class="token operator">:</span> <span class="token string">'todo-2'</span><span class="token punctuation">,</span> <span class="token literal-property property">text</span><span class="token operator">:</span> <span class="token string">'Membuat Aplikasi To-Do List dengan React'</span><span class="token punctuation">,</span> <span class="token literal-property property">isCompleted</span><span class="token operator">:</span> <span class="token boolean">false</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> <span class="token literal-property property">id</span><span class="token operator">:</span> <span class="token string">'todo-3'</span><span class="token punctuation">,</span> <span class="token literal-property property">text</span><span class="token operator">:</span> <span class="token string">'Mengerjakan tugas styling'</span><span class="token punctuation">,</span> <span class="token literal-property property">isCompleted</span><span class="token operator">:</span> <span class="token boolean">false</span> <span class="token punctuation">}</span>
+<span class="token punctuation">]</span><span class="token punctuation">)</span>;</code></pre>
+                    <p class="mt-4 leading-loose">Dengan memahami fitur yang diinginkan, bagaimana komponen akan distrukturkan, dan bagaimana data akan disimpan, Anda sudah memiliki dasar yang kuat untuk mulai merancang dan mengimplementasikan logika aplikasi To-Do List Anda sendiri menggunakan React!</p>
+                </article>
+            </section>
 
-          <article class="p-6 bg-slate-800 rounded-xl shadow-md">
-            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
-              Struktur Data Task (Contoh)
-            </h3>
-            <p class="mb-3">
-              Setiap task bisa direpresentasikan sebagai objek:
-            </p>
-            <pre><code class="language-javascript">{
-  id: 'unik-id-string-atau-angka', // Wajib untuk 'key'
-  text: 'Isi dari task',             // String
-  isCompleted: false                 // Boolean, default false
-}</code></pre>
-            <p class="mt-3">
-              State utama di `App.jsx` bisa berupa array dari objek task ini:
-            </p>
-            <pre><code class="language-javascript">// const [tasks, setTasks] = useState([
-//   { id: 't1', text: 'Belajar React Hooks', isCompleted: true },
-//   { id: 't2', text: 'Membuat Aplikasi To-Do', isCompleted: false },
-// ]);</code></pre>
-            <p class="mt-3">
-              Ini adalah dasar untuk mulai membangun aplikasi To-Do List Anda.
-              Anda akan menggunakan `useState` untuk mengelola daftar tasks,
-              props untuk meneruskan data dan fungsi ke komponen anak, serta
-              form controlled component untuk input task.
-            </p>
-          </article>
-        </section>
+            <hr class="my-16 border-gray-300 html.dark:border-gray-700">
 
-        <hr class="my-12 border-slate-700" />
+            <section id="kesimpulan" class="mb-16">
+                 <h2 class="text-4xl font-bold section-title pl-4 mb-8">🏁 Kesimpulan & Langkah Selanjutnya</h2>
+                <p class="mb-8 text-lg leading-relaxed">Selamat! Anda telah berhasil menjelajahi konsep-konsep inti React, mulai dari pengenalan dasar, JSX, berbagai teknik styling, interaksi antar komponen melalui state dan props, hingga cara mengelola formulir dan menampilkan daftar data. Ini adalah fondasi yang sangat penting dan kuat untuk memulai perjalanan Anda dalam membangun aplikasi web modern yang interaktif dan dinamis dengan React.</p>
+                
+                <article class="content-card">
+                    <h3 class="text-3xl font-semibold mb-5">Poin-Poin Kunci yang Telah Dipelajari</h3>
+                    <p class="mb-4 leading-loose">Mari kita tinjau kembali beberapa poin kunci yang telah Anda pelajari dalam panduan ini:</p>
+                    <ul class="list-disc list-inside space-y-3 pl-2 leading-loose">
+                        <li><strong>React adalah Pustaka UI Berbasis Komponen:</strong> Fokus utama React adalah membangun antarmuka pengguna dari komponen-komponen yang independen dan dapat digunakan kembali, dengan pendekatan deklaratif.</li>
+                        <li><strong>Vite Mempercepat Pengembangan:</strong> Vite adalah alat bantu modern yang menyediakan server pengembangan super cepat dan Hot Module Replacement (HMR) instan, meningkatkan produktivitas developer React.</li>
+                        <li><strong>JSX Memudahkan Penulisan UI:</strong> JSX adalah ekstensi sintaks yang memungkinkan Anda menulis markup mirip HTML di dalam JavaScript, membuat kode UI lebih intuitif dan mudah dibaca.</li>
+                        <li><strong>Fleksibilitas dalam Styling:</strong> React tidak memaksakan satu cara styling; Anda bisa memilih dari CSS biasa, CSS Modules, inline styles, hingga pustaka CSS-in-JS atau framework utility-first seperti Tailwind CSS.</li>
+                        <li><strong>State & Props adalah Inti Dinamisme:</strong> State digunakan untuk mengelola data internal komponen yang bisa berubah, sementara Props digunakan untuk meneruskan data (dan fungsi) dari komponen induk ke anak secara read-only.</li>
+                        <li><strong>Pola Umum Form & List:</strong> Mengelola formulir dengan "Controlled Components" (di mana state React menjadi sumber kebenaran) dan menampilkan daftar data menggunakan metode <code class="token method function property-access">.map()</code> dengan atribut <code class="token attr-name">key</code> yang unik adalah pola yang sangat umum dan penting dalam pengembangan React.</li>
+                    </ul>
+                </article>
 
-        <section id="kesimpulan" class="scroll-mt-20">
-          <h2
-            class="text-3xl font-bold text-sky-400 mb-6 border-l-4 border-emerald-500 pl-4"
-          >
-            🏁 Kesimpulan & Langkah Selanjutnya
-          </h2>
-          <p class="mb-6 text-lg leading-relaxed">
-            Selamat! Anda telah menjelajahi konsep-konsep inti React. Ini adalah
-            fondasi yang kuat untuk membangun aplikasi web modern.
-          </p>
+                <article class="content-card">
+                    <h3 class="text-3xl font-semibold mb-5">Langkah Selanjutnya dalam Perjalanan React Anda 🚀</h3>
+                    <p class="mb-4 leading-loose">Perjalanan belajar React Anda baru saja dimulai, dan ada banyak hal menarik lainnya yang bisa Anda eksplorasi untuk memperdalam pemahaman dan keahlian Anda:</p>
+                    <ol class="list-decimal list-inside space-y-3 pl-2 leading-loose">
+                        <li><strong>Praktik, Praktik, dan Lebih Banyak Praktik:</strong> Cara terbaik untuk benar-benar menguasai React adalah dengan membangun proyek. Mulailah dengan mengimplementasikan aplikasi To-Do List yang telah kita diskusikan secara penuh. Coba tambahkan fitur-fitur baru seperti filter tasks (semua, aktif, selesai) atau kemampuan untuk mengedit task yang sudah ada.</li>
+                        <li><strong>Pelajari Hooks React Lebih Lanjut:</strong> Selain <code class="token function">useState</code>, ada banyak Hooks lain yang sangat berguna:
+                            <ul class="list-circle list-inside ml-6 mt-2 space-y-1">
+                                <li><code class="token function">useEffect</code>: Untuk menangani *side effects* dalam komponen fungsional, seperti pengambilan data dari API (data fetching), manipulasi DOM secara manual (meskipun sebaiknya dihindari), atau berlangganan (subscribe) dan berhenti berlangganan (unsubscribe) ke event.</li>
+                                <li><code class="token function">useContext</code>: Untuk berbagi state antar komponen tanpa perlu meneruskannya secara manual melalui props di setiap level hirarki komponen (membantu menghindari *prop drilling*).</li>
+                                <li>Hooks lainnya seperti <code class="token function">useReducer</code> (untuk manajemen state yang lebih kompleks), <code class="token function">useCallback</code> dan <code class="token function">useMemo</code> (untuk optimasi performa), serta <code class="token function">useRef</code> (untuk mengakses elemen DOM secara langsung atau menyimpan nilai mutable yang tidak memicu re-render).</li>
+                            </ul>
+                        </li>
+                        <li><strong>Pelajari tentang Routing di React:</strong> Untuk membangun aplikasi multi-halaman (Single Page Applications dengan banyak "view" atau "halaman" virtual), Anda akan memerlukan pustaka routing. Pilihan paling populer adalah <code class="token class-name">React Router</code>.</li>
+                        <li><strong>Coba Pustaka State Management yang Lebih Canggih:</strong> Jika aplikasi Anda tumbuh semakin kompleks dan manajemen state menjadi rumit hanya dengan <code class="token function">useState</code> dan <code class="token function">useContext</code>, pertimbangkan untuk mempelajari pustaka state management global seperti Zustand, Jotai, atau Redux (meskipun Redux memiliki kurva belajar yang lebih curam).</li>
+                        <li><strong>Eksplorasi Ekosistem React:</strong> Coba gunakan pustaka komponen UI seperti Material-UI, Ant Design, atau Chakra UI untuk mempercepat pengembangan UI. Pelajari juga tentang testing komponen React menggunakan pustaka seperti Jest dan React Testing Library.</li>
+                        <li><strong>Berkontribusi dan Bergabung dengan Komunitas:</strong> Cara hebat untuk belajar adalah dengan terlibat dalam komunitas React. Ikuti blog, forum diskusi (seperti Reddit r/reactjs), tonton konferensi, dan jika Anda sudah merasa cukup percaya diri, cobalah berkontribusi pada proyek open-source.</li>
+                    </ol>
+                    <p class="mt-6 leading-loose">Teruslah belajar, bereksperimen, dan yang paling penting, bersenang-senanglah saat membangun dengan React. Semoga sukses dalam perjalanan pengembangan web Anda!</p>
+                </article>
+            </section>
+            
+            <footer class="footer mt-20 pt-10 pb-10 border-t text-center">
+                <p>&copy; <span id="currentYear"></span> Panduan Belajar React Interaktif. Dibuat dengan ❤️ untuk pembelajaran.</p>
+            </footer>
 
-          <article class="mb-8 p-6 bg-slate-800 rounded-xl shadow-md">
-            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
-              Poin Kunci yang Dipelajari
-            </h3>
-            <ul class="list-disc list-inside space-y-2 pl-2">
-              <li>
-                React adalah pustaka UI berbasis komponen yang deklaratif.
-              </li>
-              <li>Vite mempercepat development React.</li>
-              <li>JSX memudahkan penulisan UI.</li>
-              <li>Berbagai metode styling dapat digunakan sesuai kebutuhan.</li>
-              <li>
-                State & Props adalah inti dari data dinamis dan interaksi
-                komponen.
-              </li>
-              <li>
-                Mengelola form (controlled components) dan list (dengan `.map()`
-                dan `key`) adalah pola umum.
-              </li>
-            </ul>
-          </article>
-
-          <article class="p-6 bg-slate-800 rounded-xl shadow-md">
-            <h3 class="text-2xl font-semibold text-emerald-400 mb-4">
-              Langkah Selanjutnya 🚀
-            </h3>
-            <ol class="list-decimal list-inside space-y-3 pl-2">
-              <li>
-                <strong>Praktik Lebih Banyak:</strong> Implementasikan aplikasi
-                To-Do List secara penuh. Coba tambahkan fitur seperti filter
-                atau edit task.
-              </li>
-              <li>
-                <strong>Pelajari Hooks Lebih Lanjut:</strong> Eksplorasi
-                `useEffect` (untuk side effects seperti data fetching),
-                `useContext` (untuk state management sederhana tanpa prop
-                drilling), `useReducer`, `useCallback`, `useMemo`.
-              </li>
-              <li>
-                <strong>Routing:</strong> Pelajari React Router untuk membangun
-                aplikasi multi-halaman (SPA dengan banyak view).
-              </li>
-              <li>
-                <strong>State Management Lanjutan:</strong> Untuk aplikasi
-                kompleks, pelajari pustaka state management global seperti
-                Zustand, Jotai, atau Redux.
-              </li>
-              <li>
-                <strong>Eksplorasi Ekosistem:</strong> Coba pustaka UI seperti
-                Material-UI atau Chakra UI. Pelajari tentang testing komponen
-                React.
-              </li>
-              <li>
-                <strong>Kontribusi & Komunitas:</strong> Bergabung dengan
-                komunitas React, baca blog, dan jika memungkinkan, berkontribusi
-                pada proyek open-source.
-              </li>
-            </ol>
-            <p class="mt-4">
-              Teruslah belajar dan membangun. Semoga sukses dalam perjalanan
-              React Anda!
-            </p>
-          </article>
-        </section>
-
-        <footer
-          class="mt-20 pt-8 border-t border-slate-700 text-center text-slate-500"
-        >
-          <p>
-            &copy; 2025 Panduan Belajar React Interaktif. Dibuat dengan cinta
-            untuk pembelajaran.
-          </p>
-        </footer>
-      </main>
+        </main>
     </div>
 
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const navLinks = document.querySelectorAll(".nav-link");
-        const sections = document.querySelectorAll("main section"); // Ambil semua section di main
-        let currentActive = null;
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main section[id]');
+            const themeToggleButton = document.getElementById('theme-toggle');
+            const themeToggleIcon = document.getElementById('theme-toggle-icon');
+            const themeToggleText = document.getElementById('theme-toggle-text');
+            const htmlElement = document.documentElement;
+            let currentActiveLink = null;
 
-        function setActiveLink(link) {
-          if (currentActive) {
-            currentActive.classList.remove("active");
-          }
-          if (link) {
-            link.classList.add("active");
-            currentActive = link;
-          }
-        }
-
-        // Set active link on page load based on hash or first link
-        let initialHash = window.location.hash;
-        if (initialHash) {
-          const activeLinkOnLoad = document.querySelector(
-            `.nav-link[href="${initialHash}"]`
-          );
-          if (activeLinkOnLoad) {
-            setActiveLink(activeLinkOnLoad);
-          }
-        } else if (navLinks.length > 0) {
-          // Jika tidak ada hash, set link pertama sebagai aktif
-          setActiveLink(navLinks[0]);
-        }
-
-        navLinks.forEach((link) => {
-          link.addEventListener("click", function (event) {
-            // event.preventDefault(); // Kita biarkan default agar URL hash berubah
-            setActiveLink(this);
-            const targetId = this.getAttribute("href");
-            // const targetElement = document.querySelector(targetId);
-            // if (targetElement) {
-            //     targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            // }
-          });
-        });
-
-        // Optional: Update active link on scroll
-        const observerOptions = {
-          root: null, // relative to document viewport
-          rootMargin: "-70px 0px -50% 0px", // top offset for navbar, bottom offset
-          threshold: 0, // trigger when 0% of the element is visible
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              const link = document.querySelector(
-                `.nav-link[href="#${entry.target.id}"]`
-              );
-              setActiveLink(link);
+            function applyTheme(theme) {
+                if (theme === 'dark') {
+                    htmlElement.classList.add('dark');
+                    if (themeToggleIcon) themeToggleIcon.textContent = '☀️';
+                    if (themeToggleText) themeToggleText.textContent = " Mode Terang";
+                } else {
+                    htmlElement.classList.remove('dark');
+                    if (themeToggleIcon) themeToggleIcon.textContent = '🌙';
+                    if (themeToggleText) themeToggleText.textContent = " Mode Gelap";
+                }
             }
-          });
-        }, observerOptions);
 
-        sections.forEach((section) => {
-          observer.observe(section);
-        });
-
-        // Update hash in URL without jumping, for better UX with IntersectionObserver
-        window.addEventListener(
-          "hashchange",
-          () => {
-            const hash = window.location.hash;
-            const correspondingLink = document.querySelector(
-              `.nav-link[href="${hash}"]`
-            );
-            if (
-              correspondingLink &&
-              !correspondingLink.classList.contains("active")
-            ) {
-              // Only set active if not already set by IntersectionObserver
-              // to prevent jitter if observer is slightly delayed
-              // setActiveLink(correspondingLink); // This might cause jitter if observer is also working
+            function setActiveLink(link) {
+                if (currentActiveLink) {
+                    currentActiveLink.classList.remove('active');
+                }
+                if (link) {
+                    link.classList.add('active');
+                    currentActiveLink = link;
+                }
             }
-          },
-          false
-        );
-      });
+
+            // Theme Toggle Logic
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (savedTheme) {
+                applyTheme(savedTheme);
+            } else if (prefersDark) {
+                applyTheme('dark');
+            } else {
+                applyTheme('light'); // Default to light
+            }
+
+            if (themeToggleButton) {
+                themeToggleButton.addEventListener('click', () => {
+                    if (htmlElement.classList.contains('dark')) {
+                        applyTheme('light');
+                        localStorage.setItem('theme', 'light');
+                    } else {
+                        applyTheme('dark');
+                        localStorage.setItem('theme', 'dark');
+                    }
+                });
+            }
+            
+
+            const initialHash = window.location.hash;
+            if (initialHash) {
+                const activeLinkOnLoad = document.querySelector(`.nav-link[href="${initialHash}"]`);
+                if (activeLinkOnLoad) {
+                    setActiveLink(activeLinkOnLoad);
+                }
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (event) {
+                    // Default behavior will handle scroll and hash change
+                    // setActiveLink(this); // Let IntersectionObserver handle this for scroll-based active state
+                });
+            });
+
+            const observerOptions = {
+                root: null, 
+                rootMargin: '-30% 0px -60% 0px', // Adjust to better detect when section is "in view"
+                threshold: 0.01 
+            };
+
+            const observerCallback = (entries) => {
+                let lastIntersectingEntry = null;
+                 // Find the last entry that is intersecting, this is likely the "most current" one.
+                for (let i = entries.length - 1; i >= 0; i--) {
+                    if (entries[i].isIntersecting) {
+                        lastIntersectingEntry = entries[i];
+                        break;
+                    }
+                }
+
+                if (lastIntersectingEntry) {
+                     const link = document.querySelector(`.nav-link[href="#${lastIntersectingEntry.target.id}"]`);
+                     if (link) setActiveLink(link);
+                }
+            };
+
+            if (sections.length > 0) {
+                const observer = new IntersectionObserver(observerCallback, observerOptions);
+                sections.forEach(section => {
+                    observer.observe(section);
+                });
+            }
+            
+            window.addEventListener('hashchange', () => {
+                const hash = window.location.hash;
+                if (hash) {
+                    const correspondingLink = document.querySelector(`.nav-link[href="${hash}"]`);
+                    if (correspondingLink) {
+                        setActiveLink(correspondingLink);
+                         // Optional: Scroll to ensure the section is properly in view after hash change if observer missed it
+                        // document.querySelector(hash).scrollIntoView({behavior: 'smooth'});
+                    }
+                }
+            });
+
+            const currentYearSpan = document.getElementById('currentYear');
+            if (currentYearSpan) {
+                currentYearSpan.textContent = new Date().getFullYear();
+            }
+        });
     </script>
-  </body>
+</body>
 </html>
