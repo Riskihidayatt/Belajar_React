@@ -5,6 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panduan React Interaktif Lengkap</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Application Structure Plan: 
+        Aplikasi ini menggunakan struktur navigasi sidebar tetap di sebelah kiri dan area konten utama di sebelah kanan yang dapat di-scroll.
+        Setiap topik utama dari materi Markdown adalah tautan di sidebar, menggulir ke bagian relevan.
+        Navbar memiliki efek visual dinamis (hover, active state berdasarkan scroll).
+        Ditambahkan fitur Light/Dark mode toggle di sidebar.
+        Struktur ini dipilih untuk kesederhanaan implementasi dalam satu file HTML, kemudahan navigasi, pengalaman belajar yang terstruktur, dan kemudahan penyalinan seluruh konten.
+    -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Materi pembelajaran React lengkap dari Markdown (Pengenalan & Vite, JSX, Styling, Interaksi Komponen, Lifecycle, Form & List, Studi Kasus To-Do, Kesimpulan).
+        - Goal: Menyajikan materi secara komprehensif, mudah diakses, dan interaktif dengan opsi tema.
+        - Viz/Presentation Method: Teks (paragraf, daftar, judul), contoh kode (<pre><code>), navigasi sidebar, struktur scroll satu halaman.
+        - Interaction: Klik navigasi (scroll), hover/active link, Light/Dark mode toggle.
+        - Justification: User-friendly, fokus konten, implementasi mudah.
+        - Library/Method: Vanilla JS, Tailwind CSS.
+        - Confirmation: NO SVG graphics used. NO Mermaid JS used.
+    -->
     <style>
         /* Base Styles - Light Mode (Cosmic Latte) */
         body {
@@ -123,6 +139,15 @@
         }
         html.dark .content-card h3 {
             color: #F87171; /* Brighter Coral */
+        }
+         .content-card h4 { /* Styling for sub-sub-headings within cards */
+            color: #4ECDC4; /* Turquoise for H4 */
+            font-weight: 600; /* semibold */
+            margin-top: 1.25rem; /* mt-5 */
+            margin-bottom: 0.75rem; /* mb-3 */
+        }
+        html.dark .content-card h4 {
+            color: #2DD4BF; /* Brighter Turquoise for H4 in dark mode */
         }
         .content-card p, .content-card ul, .content-card ol, .content-card table {
              color: #4A4A4A; 
@@ -287,6 +312,7 @@
             <a href="#jsx" class="nav-link block py-3.5 px-5 rounded-lg text-base">✨ JSX</a>
             <a href="#styling" class="nav-link block py-3.5 px-5 rounded-lg text-base">🎨 Styling</a>
             <a href="#interaksi" class="nav-link block py-3.5 px-5 rounded-lg text-base">🔗 Interaksi Komponen</a>
+            <a href="#lifecycle" class="nav-link block py-3.5 px-5 rounded-lg text-base">🔄 Lifecycle Komponen</a>
             <a href="#form-list" class="nav-link block py-3.5 px-5 rounded-lg text-base">📝 Form & List</a>
             <a href="#studi-kasus" class="nav-link block py-3.5 px-5 rounded-lg text-base">🔨 Studi Kasus: To-Do</a>
             <a href="#kesimpulan" class="nav-link block py-3.5 px-5 rounded-lg text-base">🏁 Kesimpulan</a>
@@ -621,6 +647,123 @@
 
             <hr class="my-16 border-gray-300 dark:border-gray-700">
 
+            <section id="lifecycle" class="mb-16">
+                <h2 class="text-4xl font-bold section-title pl-4 mb-8">🔄 Lifecycle Komponen React</h2>
+                <p class="mb-8 text-lg leading-relaxed">Setiap komponen React memiliki siklus hidup yang terdiri dari beberapa fase: Mounting (Pemasangan), Updating (Pembaruan), dan Unmounting (Pencopotan). Memahami siklus hidup ini memungkinkan Anda menjalankan kode pada momen-momen penting.</p>
+            
+                <article class="content-card">
+                    <h3 class="text-3xl font-semibold mb-5">Siklus Hidup pada Class Components (Legacy)</h3>
+                    <p class="mb-4 leading-loose">Meskipun Hooks lebih umum sekarang, penting untuk mengetahui metode siklus hidup class jika Anda bekerja dengan codebase lama.</p>
+                    
+                    <h4 class="text-2xl font-semibold mt-6 mb-3">Fase Mounting</h4>
+                    <ul class="list-disc list-inside space-y-2 pl-2 leading-loose">
+                        <li><code class="token function">constructor()</code>: Inisialisasi state dan binding method.</li>
+                        <li><code class="token function">static getDerivedStateFromProps()</code>: Sinkronisasi state dari props sebelum render.</li>
+                        <li><code class="token function">render()</code>: Mengembalikan JSX untuk UI. Wajib ada.</li>
+                        <li><code class="token function">componentDidMount()</code>: Dipanggil setelah komponen terpasang di DOM. Tempat ideal untuk request API atau setup subscriptions.</li>
+                    </ul>
+                    <pre><code class="language-jsx"><span class="token keyword">class</span> <span class="token class-name">MyClassComponent</span> <span class="token keyword">extends</span> <span class="token class-name">React.Component</span> <span class="token punctuation">{</span>
+  <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">super</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span>;
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token property-access">state</span> <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token literal-property property">data</span><span class="token operator">:</span> <span class="token keyword">null</span> <span class="token punctuation">}</span>;
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token string">'Constructor dipanggil'</span><span class="token punctuation">)</span>;
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">static</span> <span class="token function">getDerivedStateFromProps</span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">,</span> <span class="token parameter">state</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token string">'getDerivedStateFromProps dipanggil'</span><span class="token punctuation">)</span>;
+    <span class="token keyword">return</span> <span class="token keyword">null</span>; <span class="token comment">// Atau update state jika perlu</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">componentDidMount</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token string">'componentDidMount dipanggil'</span><span class="token punctuation">)</span>;
+    <span class="token comment">// fetch data</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token method function property-access">setState</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">data</span><span class="token operator">:</span> <span class="token string">'Data berhasil diambil!'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>;
+  <span class="token punctuation">}</span>
+
+  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token string">'Render dipanggil'</span><span class="token punctuation">)</span>;
+    <span class="token keyword">return</span> <span class="token tag">&lt;div&gt;</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token property-access">state</span><span class="token punctuation">.</span><span class="token property-access">data</span> <span class="token operator">||</span> <span class="token string">'Loading...'</span><span class="token punctuation">}</span><span class="token tag">&lt;/div&gt;</span>;
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+
+                    <h4 class="text-2xl font-semibold mt-6 mb-3">Fase Updating</h4>
+                    <ul class="list-disc list-inside space-y-2 pl-2 leading-loose">
+                        <li><code class="token function">static getDerivedStateFromProps()</code>: Dipanggil juga di sini.</li>
+                        <li><code class="token function">shouldComponentUpdate(nextProps, nextState)</code>: Kontrol apakah render ulang diperlukan. Mengembalikan boolean.</li>
+                        <li><code class="token function">render()</code>: Jika `shouldComponentUpdate` true.</li>
+                        <li><code class="token function">getSnapshotBeforeUpdate(prevProps, prevState)</code>: Menangkap info DOM sebelum update.</li>
+                        <li><code class="token function">componentDidUpdate(prevProps, prevState, snapshot)</code>: Dipanggil setelah update. Tempat untuk side effects berdasarkan perubahan props/state.</li>
+                    </ul>
+
+                    <h4 class="text-2xl font-semibold mt-6 mb-3">Fase Unmounting</h4>
+                    <ul class="list-disc list-inside space-y-2 pl-2 leading-loose">
+                        <li><code class="token function">componentWillUnmount()</code>: Dipanggil sebelum komponen dihapus. Tempat untuk cleanup (unsubscribe, clear timers).</li>
+                    </ul>
+                     <pre><code class="language-jsx"><span class="token keyword">class</span> <span class="token class-name">MyClassComponentWithUpdate</span> <span class="token keyword">extends</span> <span class="token class-name">React.Component</span> <span class="token punctuation">{</span>
+                        <span class="token comment">// ... constructor, componentDidMount, render ...</span>
+                        <span class="token function">shouldComponentUpdate</span><span class="token punctuation">(</span><span class="token parameter">nextProps</span><span class="token punctuation">,</span> <span class="token parameter">nextState</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                            <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token string">'shouldComponentUpdate'</span><span class="token punctuation">,</span> nextProps<span class="token punctuation">,</span> nextState<span class="token punctuation">)</span>;
+                            <span class="token keyword">return</span> <span class="token boolean">true</span>; <span class="token comment">// atau false untuk skip render</span>
+                        <span class="token punctuation">}</span>
+                        <span class="token function">getSnapshotBeforeUpdate</span><span class="token punctuation">(</span><span class="token parameter">prevProps</span><span class="token punctuation">,</span> <span class="token parameter">prevState</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                            <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token string">'getSnapshotBeforeUpdate'</span><span class="token punctuation">,</span> prevProps<span class="token punctuation">,</span> prevState<span class="token punctuation">)</span>;
+                            <span class="token keyword">return</span> <span class="token string">'snapshot value'</span>;
+                        <span class="token punctuation">}</span>
+                        <span class="token function">componentDidUpdate</span><span class="token punctuation">(</span><span class="token parameter">prevProps</span><span class="token punctuation">,</span> <span class="token parameter">prevState</span><span class="token punctuation">,</span> <span class="token parameter">snapshot</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                            <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token string">'componentDidUpdate'</span><span class="token punctuation">,</span> prevProps<span class="token punctuation">,</span> prevState<span class="token punctuation">,</span> snapshot<span class="token punctuation">)</span>;
+                            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token property-access">props</span><span class="token punctuation">.</span><span class="token property-access">userID</span> <span class="token operator">!==</span> prevProps<span class="token punctuation">.</span><span class="token property-access">userID</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                                <span class="token comment">// Fetch data baru</span>
+                            <span class="token punctuation">}</span>
+                        <span class="token punctuation">}</span>
+                        <span class="token function">componentWillUnmount</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                            <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token string">'componentWillUnmount'</span><span class="token punctuation">)</span>;
+                            <span class="token comment">// cleanup, misal clearInterval</span>
+                        <span class="token punctuation">}</span>
+                        <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token tag">&lt;div&gt;</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token property-access">props</span><span class="token punctuation">.</span><span class="token property-access">someProp</span><span class="token punctuation">}</span><span class="token tag">&lt;/div&gt;</span>; <span class="token punctuation">}</span>
+                    <span class="token punctuation">}</span></code></pre>
+                </article>
+
+                <article class="content-card">
+                    <h3 class="text-3xl font-semibold mb-5">Lifecycle dengan Functional Components & Hooks (Modern)</h3>
+                    <p class="mb-4 leading-loose">Hooks menyediakan cara yang lebih sederhana dan fleksibel untuk mengelola state dan side effects (yang terkait erat dengan lifecycle).</p>
+                    
+                    <h4 class="text-2xl font-semibold mt-6 mb-3">`useEffect` untuk Side Effects dan Lifecycle</h4>
+                    <p class="mb-2 leading-loose">Hook <code class="token function">useEffect</code> menerima fungsi callback dan array dependensi.</p>
+                    <ul class="list-disc list-inside space-y-2 pl-2 leading-loose">
+                        <li><strong>Mirip `componentDidMount` (Jalankan sekali):</strong> Array dependensi kosong <code class="token punctuation">[ ]</code>.
+                            <pre><code class="language-jsx"><span class="token keyword">import</span> <span class="token punctuation">{</span> <span class="token constant">useEffect</span><span class="token punctuation">,</span> <span class="token constant">useState</span> <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span>;
+<span class="token keyword">function</span> <span class="token function">MyFunctionalComponent</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span>data<span class="token punctuation">,</span> setData<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">)</span>;
+  <span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token string">'Komponen fungsional di-mount'</span><span class="token punctuation">)</span>;
+    <span class="token function">fetch</span><span class="token punctuation">(</span><span class="token string">'/api/data'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token method function property-access">then</span><span class="token punctuation">(</span><span class="token parameter">res</span> <span class="token arrow operator">=&gt;</span> res<span class="token punctuation">.</span><span class="token method function property-access">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token method function property-access">then</span><span class="token punctuation">(</span>setData<span class="token punctuation">)</span>;
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>; <span class="token comment">// Array dependensi kosong</span>
+  <span class="token keyword">return</span> <span class="token tag">&lt;div&gt;</span><span class="token punctuation">{</span>data <span class="token operator">?</span> data<span class="token punctuation">.</span><span class="token property-access">message</span> <span class="token operator">:</span> <span class="token string">'Loading...'</span><span class="token punctuation">}</span><span class="token tag">&lt;/div&gt;</span>;
+<span class="token punctuation">}</span></code></pre>
+                        </li>
+                        <li><strong>Mirip `componentDidUpdate` (Jalankan saat dependensi berubah):</strong> Sertakan variabel (props atau state) dalam array dependensi.
+                            <pre><code class="language-jsx"><span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token quasi backtick">`</span><span class="token string">User ID berubah: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>props<span class="token punctuation">.</span><span class="token property-access">userId</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token quasi backtick">`</span></span><span class="token punctuation">)</span>;
+  document<span class="token punctuation">.</span><span class="token property-access">title</span> <span class="token operator">=</span> <span class="token template-string"><span class="token quasi backtick">`</span><span class="token string">Profil: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>props<span class="token punctuation">.</span><span class="token property-access">userId</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token quasi backtick">`</span></span>;
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>props<span class="token punctuation">.</span><span class="token property-access">userId</span><span class="token punctuation">]</span><span class="token punctuation">)</span>; <span class="token comment">// Dependensi: props.userId</span></code></pre>
+                        </li>
+                        <li><strong>Mirip `componentWillUnmount` (Fungsi Cleanup):</strong> Kembalikan sebuah fungsi dari dalam `useEffect`. Fungsi cleanup ini akan dijalankan sebelum komponen di-unmount, atau sebelum effect berjalan lagi jika dependensi berubah.
+                            <pre><code class="language-jsx"><span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token function-variable function">handleResize</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token string">'Window di-resize'</span><span class="token punctuation">)</span>;
+  window<span class="token punctuation">.</span><span class="token method function property-access">addEventListener</span><span class="token punctuation">(</span><span class="token string">'resize'</span><span class="token punctuation">,</span> handleResize<span class="token punctuation">)</span>;
+  <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token punctuation">{</span> <span class="token comment">// Fungsi cleanup</span>
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token string">'Membersihkan event listener resize'</span><span class="token punctuation">)</span>;
+    window<span class="token punctuation">.</span><span class="token method function property-access">removeEventListener</span><span class="token punctuation">(</span><span class="token string">'resize'</span><span class="token punctuation">,</span> handleResize<span class="token punctuation">)</span>;
+  <span class="token punctuation">}</span>;
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>;</code></pre>
+                        </li>
+                    </ul>
+                    <p class="mt-4 leading-loose">Jika array dependensi dihilangkan, effect akan berjalan setelah setiap render.</p>
+                </article>
+            </section>
+
+            <hr class="my-16 border-gray-300 dark:border-gray-700">
+
             <section id="form-list" class="mb-16">
                 <h2 class="text-4xl font-bold section-title pl-4 mb-8">📝 Form & List: Mengelola Input dan Menampilkan Data</h2>
                 <p class="mb-8 text-lg leading-relaxed">Mengelola input pengguna melalui formulir dan menampilkan daftar data secara dinamis adalah dua tugas yang sangat umum dalam pengembangan aplikasi web. React menyediakan cara yang elegan dan efektif untuk menangani keduanya.</p>
@@ -774,7 +917,7 @@
 
             <section id="kesimpulan" class="mb-16">
                  <h2 class="text-4xl font-bold section-title pl-4 mb-8">🏁 Kesimpulan & Langkah Selanjutnya</h2>
-                <p class="mb-8 text-lg leading-relaxed">Selamat! Anda telah berhasil menjelajahi konsep-konsep inti React, mulai dari pengenalan dasar, JSX, berbagai teknik styling, interaksi antar komponen melalui state dan props, hingga cara mengelola formulir dan menampilkan daftar data. Ini adalah fondasi yang sangat penting dan kuat untuk memulai perjalanan Anda dalam membangun aplikasi web modern yang interaktif dan dinamis dengan React.</p>
+                <p class="mb-8 text-lg leading-relaxed">Selamat! Anda telah berhasil menjelajahi konsep-konsep inti React, mulai dari pengenalan dasar, JSX, berbagai teknik styling, interaksi antar komponen melalui state dan props, siklus hidup komponen, hingga cara mengelola formulir dan menampilkan daftar data. Ini adalah fondasi yang sangat penting dan kuat untuk memulai perjalanan Anda dalam membangun aplikasi web modern yang interaktif dan dinamis dengan React.</p>
                 
                 <article class="content-card">
                     <h3 class="text-3xl font-semibold mb-5">Poin-Poin Kunci yang Telah Dipelajari</h3>
@@ -785,6 +928,7 @@
                         <li><strong>JSX Memudahkan Penulisan UI:</strong> JSX adalah ekstensi sintaks yang memungkinkan Anda menulis markup mirip HTML di dalam JavaScript, membuat kode UI lebih intuitif dan mudah dibaca.</li>
                         <li><strong>Fleksibilitas dalam Styling:</strong> React tidak memaksakan satu cara styling; Anda bisa memilih dari CSS biasa, CSS Modules, inline styles, hingga pustaka CSS-in-JS atau framework utility-first seperti Tailwind CSS.</li>
                         <li><strong>State & Props adalah Inti Dinamisme:</strong> State digunakan untuk mengelola data internal komponen yang bisa berubah, sementara Props digunakan untuk meneruskan data (dan fungsi) dari komponen induk ke anak secara read-only.</li>
+                        <li><strong>Lifecycle Komponen:</strong> Memahami fase Mounting, Updating, dan Unmounting (baik pada Class Components maupun dengan Hooks seperti `useEffect` pada Functional Components) penting untuk mengelola side effects dan optimasi.</li>
                         <li><strong>Pola Umum Form & List:</strong> Mengelola formulir dengan "Controlled Components" (di mana state React menjadi sumber kebenaran) dan menampilkan daftar data menggunakan metode <code class="token method function property-access">.map()</code> dengan atribut <code class="token attr-name">key</code> yang unik adalah pola yang sangat umum dan penting dalam pengembangan React.</li>
                     </ul>
                 </article>
@@ -794,11 +938,12 @@
                     <p class="mb-4 leading-loose">Perjalanan belajar React Anda baru saja dimulai, dan ada banyak hal menarik lainnya yang bisa Anda eksplorasi untuk memperdalam pemahaman dan keahlian Anda:</p>
                     <ol class="list-decimal list-inside space-y-3 pl-2 leading-loose">
                         <li><strong>Praktik, Praktik, dan Lebih Banyak Praktik:</strong> Cara terbaik untuk benar-benar menguasai React adalah dengan membangun proyek. Mulailah dengan mengimplementasikan aplikasi To-Do List yang telah kita diskusikan secara penuh. Coba tambahkan fitur-fitur baru seperti filter tasks (semua, aktif, selesai) atau kemampuan untuk mengedit task yang sudah ada.</li>
-                        <li><strong>Pelajari Hooks React Lebih Lanjut:</strong> Selain <code class="token function">useState</code>, ada banyak Hooks lain yang sangat berguna:
+                        <li><strong>Pelajari Hooks React Lebih Lanjut:</strong> Selain <code class="token function">useState</code> dan <code class="token function">useEffect</code>, ada banyak Hooks lain yang sangat berguna:
                             <ul class="list-circle list-inside ml-6 mt-2 space-y-1">
-                                <li><code class="token function">useEffect</code>: Untuk menangani *side effects* dalam komponen fungsional, seperti pengambilan data dari API (data fetching), manipulasi DOM secara manual (meskipun sebaiknya dihindari), atau berlangganan (subscribe) dan berhenti berlangganan (unsubscribe) ke event.</li>
                                 <li><code class="token function">useContext</code>: Untuk berbagi state antar komponen tanpa perlu meneruskannya secara manual melalui props di setiap level hirarki komponen (membantu menghindari *prop drilling*).</li>
-                                <li>Hooks lainnya seperti <code class="token function">useReducer</code> (untuk manajemen state yang lebih kompleks), <code class="token function">useCallback</code> dan <code class="token function">useMemo</code> (untuk optimasi performa), serta <code class="token function">useRef</code> (untuk mengakses elemen DOM secara langsung atau menyimpan nilai mutable yang tidak memicu re-render).</li>
+                                <li><code class="token function">useReducer</code>: Untuk manajemen state yang lebih kompleks, seringkali sebagai alternatif untuk <code class="token function">useState</code>.</li>
+                                <li><code class="token function">useCallback</code> dan <code class="token function">useMemo</code>: Untuk optimasi performa dengan memoizing fungsi dan nilai.</li>
+                                <li><code class="token function">useRef</code>: Untuk mengakses elemen DOM secara langsung atau menyimpan nilai mutable yang tidak memicu re-render.</li>
                             </ul>
                         </li>
                         <li><strong>Pelajari tentang Routing di React:</strong> Untuk membangun aplikasi multi-halaman (Single Page Applications dengan banyak "view" atau "halaman" virtual), Anda akan memerlukan pustaka routing. Pilihan paling populer adalah <code class="token class-name">React Router</code>.</li>
@@ -881,7 +1026,7 @@
             if (mobileMenuButton && sidebar && openIcon && closeIcon) {
                 mobileMenuButton.addEventListener('click', () => {
                     sidebar.classList.toggle('-translate-x-full');
-                    sidebar.classList.toggle('md:translate-x-0'); // Ensure md:translate-x-0 is also toggled correctly if needed
+                    // sidebar.classList.toggle('md:translate-x-0'); // This might not be needed if default is md:translate-x-0
                     openIcon.classList.toggle('hidden');
                     closeIcon.classList.toggle('hidden');
                 });
@@ -890,14 +1035,12 @@
             // Close mobile sidebar when a nav link is clicked
             navLinks.forEach(link => {
                 link.addEventListener('click', function (event) {
-                    // No preventDefault needed as we want the hash to change for anchor scrolling
                     const isMobileView = window.innerWidth < 768; // Tailwind's md breakpoint
                     if (isMobileView && sidebar && !sidebar.classList.contains('-translate-x-full')) {
                          sidebar.classList.add('-translate-x-full');
                          openIcon.classList.remove('hidden');
                          closeIcon.classList.add('hidden');
                     }
-                    // Active link will be handled by IntersectionObserver or hashchange
                 });
             });
 
